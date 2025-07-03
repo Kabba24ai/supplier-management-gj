@@ -226,6 +226,50 @@ function App() {
     }
   };
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    const supplierData = {
+      name: formData.get('name') as string,
+      contactPerson: formData.get('contactPerson') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      address: formData.get('address') as string,
+      city: formData.get('city') as string,
+      country: formData.get('country') as string,
+      category: formData.get('category') as string,
+      website: formData.get('website') as string,
+      taxId: formData.get('taxId') as string,
+      paymentTerms: formData.get('paymentTerms') as string,
+      status: formData.get('status') as 'active' | 'inactive' | 'pending',
+    };
+
+    if (currentView === 'edit' && selectedSupplier) {
+      // Update existing supplier
+      setSuppliers(suppliers.map(s => 
+        s.id === selectedSupplier.id 
+          ? { ...s, ...supplierData }
+          : s
+      ));
+    } else {
+      // Add new supplier
+      const newSupplier: Supplier = {
+        id: Math.max(...suppliers.map(s => s.id)) + 1,
+        ...supplierData,
+        rating: 0,
+        totalOrders: 0,
+        totalValue: 0,
+        lastOrder: '',
+        joinDate: new Date().toISOString().split('T')[0],
+      };
+      setSuppliers([...suppliers, newSupplier]);
+    }
+
+    setCurrentView('list');
+    setSelectedSupplier(null);
+  };
+
   const renderStats = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
@@ -530,7 +574,7 @@ function App() {
                 <div className="text-sm text-gray-600">Rating</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">{formatDate(selectedSupplier.lastOrder)}</div>
+                <div className="text-2xl font-bold text-purple-600">{selectedSupplier.lastOrder ? formatDate(selectedSupplier.lastOrder) : 'N/A'}</div>
                 <div className="text-sm text-gray-600">Last Order</div>
               </div>
             </div>
@@ -552,13 +596,15 @@ function App() {
           </h2>
         </div>
 
-        <form className="p-6">
+        <form className="p-6" onSubmit={handleFormSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Company Name *</label>
               <input
                 type="text"
+                name="name"
                 defaultValue={supplier?.name || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter company name"
               />
@@ -568,7 +614,9 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Contact Person *</label>
               <input
                 type="text"
+                name="contactPerson"
                 defaultValue={supplier?.contactPerson || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter contact person name"
               />
@@ -578,7 +626,9 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
               <input
                 type="email"
+                name="email"
                 defaultValue={supplier?.email || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter email address"
               />
@@ -588,7 +638,9 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
               <input
                 type="tel"
+                name="phone"
                 defaultValue={supplier?.phone || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter phone number"
               />
@@ -598,7 +650,9 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
               <input
                 type="text"
+                name="address"
                 defaultValue={supplier?.address || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter address"
               />
@@ -608,7 +662,9 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
               <input
                 type="text"
+                name="city"
                 defaultValue={supplier?.city || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter city"
               />
@@ -618,7 +674,9 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Country *</label>
               <input
                 type="text"
+                name="country"
                 defaultValue={supplier?.country || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter country"
               />
@@ -627,7 +685,9 @@ function App() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Category *</label>
               <select
+                name="category"
                 defaultValue={supplier?.category || ''}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select category</option>
@@ -643,6 +703,7 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
               <input
                 type="url"
+                name="website"
                 defaultValue={supplier?.website || ''}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter website URL"
@@ -653,6 +714,7 @@ function App() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Tax ID</label>
               <input
                 type="text"
+                name="taxId"
                 defaultValue={supplier?.taxId || ''}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter tax ID"
@@ -662,6 +724,7 @@ function App() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Payment Terms</label>
               <select
+                name="paymentTerms"
                 defaultValue={supplier?.paymentTerms || 'Net 30'}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
@@ -675,6 +738,7 @@ function App() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
               <select
+                name="status"
                 defaultValue={supplier?.status || 'active'}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
