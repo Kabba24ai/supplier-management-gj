@@ -335,12 +335,17 @@ function App() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900 w-64">
-                        <div className="flex flex-wrap gap-1 max-w-xs">
-                          {supplier.tags.map((tag, index) => (
-                            <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
+                        <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
+                          {supplier.tags.slice(0, 6).map((tag, index) => (
+                            <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 whitespace-nowrap">
                               #{tag}
                             </span>
                           ))}
+                          {supplier.tags.length > 6 && (
+                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-700 whitespace-nowrap">
+                              +{supplier.tags.length - 6} more
+                            </span>
+                          )}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
