@@ -252,33 +252,16 @@ function App() {
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
                 <select
-                  Products & Tags
+                  value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value)}
-                
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">Product Categories</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedSupplier.product_categories.map((category, index) => (
-                        <span key={index} className="inline-flex px-3 py-2 text-sm font-semibold rounded-lg bg-purple-50 text-purple-700 border border-purple-200">
-                          {category}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">Tags</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedSupplier.tags.map((tag, index) => (
-                        <span key={index} className="inline-flex px-3 py-2 text-sm font-medium rounded-md bg-gray-100 text-gray-700 border border-gray-200">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="all">All Categories</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
                 </select>
               </div>
 
