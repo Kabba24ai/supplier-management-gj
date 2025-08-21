@@ -90,7 +90,15 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
     }
   };
 
-  const categories = ['Technology', 'Manufacturing', 'Materials', 'Sustainability', 'Services'];
+  const categories = [
+    'Parts',
+    'Supplies - General', 
+    'Equipment Mfg.',
+    'Equipment Dealer',
+    'Financing',
+    'Software / IT',
+    'Utilities'
+  ];
   const paymentTermsOptions = ['Net 15', 'Net 30', 'Net 45', 'Net 60'];
 
   return (

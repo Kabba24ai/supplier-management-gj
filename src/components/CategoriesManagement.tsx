@@ -5,6 +5,7 @@ interface Category {
   id: number;
   name: string;
   usageCount: number;
+  isDefault?: boolean;
 }
 
 interface CategoriesManagementProps {
@@ -13,6 +14,16 @@ interface CategoriesManagementProps {
   onClose: () => void;
 }
 
+// Default categories that cannot be edited or deleted
+const DEFAULT_CATEGORIES = [
+  'Parts',
+  'Supplies - General', 
+  'Equipment Mfg.',
+  'Equipment Dealer',
+  'Financing',
+  'Software / IT',
+  'Utilities'
+];
 const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, onUpdateSuppliers, onClose }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -28,10 +39,17 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
       categoryCounts[supplier.category] = (categoryCounts[supplier.category] || 0) + 1;
     });
 
+    // Include all default categories even if not used
+    DEFAULT_CATEGORIES.forEach(defaultCategory => {
+      if (!(defaultCategory in categoryCounts)) {
+        categoryCounts[defaultCategory] = 0;
+      }
+    });
     const uniqueCategories: Category[] = Object.entries(categoryCounts).map(([name, count], index) => ({
       id: index + 1,
       name,
       usageCount: count
+      isDefault: DEFAULT_CATEGORIES.includes(name)
     }));
 
     setCategories(uniqueCategories.sort((a, b) => a.name.localeCompare(b.name)));
@@ -54,6 +72,7 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
       id: Math.max(...categories.map(c => c.id), 0) + 1,
       name: newCategoryName.trim(),
       usageCount: 0
+      isDefault: false
     };
 
     setCategories([...categories, newCategory].sort((a, b) => a.name.localeCompare(b.name)));
@@ -61,6 +80,10 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
   };
 
   const handleEditCategory = (category: Category) => {
+    if (category.isDefault) {
+      alert('Default categories cannot be edited.');
+      return;
+    }
     setEditingCategory(category);
     setEditCategoryName(category.name);
   };
@@ -99,6 +122,11 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
   };
 
   const handleDeleteCategory = (categoryToDelete: Category) => {
+    if (categoryToDelete.isDefault) {
+      alert('Default categories cannot be deleted.');
+      return;
+    }
+
     if (categoryToDelete.usageCount > 0) {
       const confirmDelete = window.confirm(
         `This category is used by ${categoryToDelete.usageCount} supplier(s). Deleting it will set their category to "Uncategorized". Are you sure?`
@@ -241,8 +269,13 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
                           </div>
                         ) : (
                           <>
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 mr-3">
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium mr-3 ${
+                              category.isDefault 
+                                ? 'bg-blue-100 text-blue-800 border border-blue-200' 
+                                : 'bg-green-100 text-green-800'
+                            }`}>
                               {category.name}
+                              {category.isDefault && <span className="ml-1 text-xs">(Default)</span>}
                             </span>
                             <span className="text-sm text-gray-500">
                               Used by {category.usageCount} supplier{category.usageCount !== 1 ? 's' : ''}
@@ -255,15 +288,25 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => handleEditCategory(category)}
-                            className="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                            className={`p-1 rounded transition-colors ${
+                              category.isDefault
+                                ? 'text-gray-400 cursor-not-allowed'
+                                : 'text-blue-600 hover:text-blue-800 hover:bg-blue-50'
+                            }`}
                             title="Edit Category"
+                            disabled={category.isDefault}
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDeleteCategory(category)}
-                            className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
+                            className={`p-1 rounded transition-colors ${
+                              category.isDefault
+                                ? 'text-gray-400 cursor-not-allowed'
+                                : 'text-red-600 hover:text-red-800 hover:bg-red-50'
+                            }`}
                             title="Delete Category"
+                            disabled={category.isDefault}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>

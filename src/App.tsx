@@ -1,11 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag, Folder } from 'lucide-react';
+import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag, Folder, Wrench, Package, Factory, Truck, CreditCard, Monitor, Zap } from 'lucide-react';
 import SupplierModal from './components/SupplierModal';
 import TagsManagement from './components/TagsManagement';
 import CategoriesManagement from './components/CategoriesManagement';
 import { Supplier } from './types/supplier';
 import { mockSuppliers } from './data/mockData';
 
+// Category icon mapping
+const getCategoryIcon = (category: string) => {
+  switch (category) {
+    case 'Parts':
+      return <Wrench className="w-5 h-5 text-white" />;
+    case 'Supplies - General':
+      return <Package className="w-5 h-5 text-white" />;
+    case 'Equipment Mfg.':
+      return <Factory className="w-5 h-5 text-white" />;
+    case 'Equipment Dealer':
+      return <Truck className="w-5 h-5 text-white" />;
+    case 'Financing':
+      return <CreditCard className="w-5 h-5 text-white" />;
+    case 'Software / IT':
+      return <Monitor className="w-5 h-5 text-white" />;
+    case 'Utilities':
+      return <Zap className="w-5 h-5 text-white" />;
+    default:
+      return <Building2 className="w-5 h-5 text-white" />;
+  }
+};
+
+// Category color mapping
+const getCategoryColor = (category: string) => {
+  switch (category) {
+    case 'Parts':
+      return 'from-orange-500 to-red-600';
+    case 'Supplies - General':
+      return 'from-green-500 to-emerald-600';
+    case 'Equipment Mfg.':
+      return 'from-gray-500 to-slate-600';
+    case 'Equipment Dealer':
+      return 'from-blue-500 to-indigo-600';
+    case 'Financing':
+      return 'from-yellow-500 to-amber-600';
+    case 'Software / IT':
+      return 'from-purple-500 to-violet-600';
+    case 'Utilities':
+      return 'from-cyan-500 to-teal-600';
+    default:
+      return 'from-blue-500 to-purple-600';
+  }
+};
 function App() {
   const [suppliers, setSuppliers] = useState<Supplier[]>(mockSuppliers);
   const [filteredSuppliers, setFilteredSuppliers] = useState<Supplier[]>(mockSuppliers);
@@ -354,8 +397,8 @@ function App() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                              <Building2 className="w-5 h-5 text-white" />
+                            <div className={`h-10 w-10 rounded-full bg-gradient-to-r ${getCategoryColor(supplier.category)} flex items-center justify-center`}>
+                              {getCategoryIcon(supplier.category)}
                             </div>
                           </div>
                           <div className="ml-4">
