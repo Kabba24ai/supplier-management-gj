@@ -75,7 +75,7 @@ function App() {
     if (nameEmailSearch) {
       filtered = filtered.filter(supplier =>
         supplier.email.toLowerCase().includes(nameEmailSearch.toLowerCase()) ||
-        supplier.contactPerson.toLowerCase().includes(nameEmailSearch.toLowerCase())
+        supplier.primaryContact.toLowerCase().includes(nameEmailSearch.toLowerCase())
       );
     }
 
@@ -120,6 +120,7 @@ function App() {
   }, [nameEmailSearch, companySearch, tagSearch, partSearch, statusFilter, categoryFilter, suppliers, parts]);
 
   const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => {
+  const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'lastOrder' | 'joinDate'>) => {
     const newSupplier: Supplier = {
       ...supplierData,
       id: Math.max(...suppliers.map(s => s.id)) + 1,
@@ -131,6 +132,7 @@ function App() {
   };
 
   const handleEditSupplier = (supplierData: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => {
+  const handleEditSupplier = (supplierData: Omit<Supplier, 'id' | 'lastOrder' | 'joinDate'>) => {
     if (!editingSupplier) return;
     
     const updatedSupplier: Supplier = {
@@ -383,7 +385,7 @@ function App() {
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
-                            <div className="text-sm text-gray-500">{supplier.contactPerson}</div>
+                            <div className="text-sm text-gray-500">{supplier.primaryContact}</div>
                           </div>
                         </div>
                       </td>

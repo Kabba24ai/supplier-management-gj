@@ -8,9 +8,11 @@ export interface Supplier {
   country: string;
   category: string;
   status: 'active' | 'inactive' | 'pending';
-  rating: number;
   lastOrder: string | null;
-  contactPerson: string;
+  primaryContact: string;
+  secondaryContact?: string;
+  secondaryEmail?: string;
+  secondaryPhone?: string;
   website?: string;
   taxId?: string;
   paymentTerms: string;

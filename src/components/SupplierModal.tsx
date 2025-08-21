@@ -4,7 +4,7 @@ import { Supplier } from '../types/supplier';
 
 interface SupplierModalProps {
   supplier?: Supplier | null;
-  onSave: (supplier: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => void;
+  onSave: (supplier: Omit<Supplier, 'id' | 'lastOrder' | 'joinDate'>) => void;
   onClose: () => void;
 }
 
@@ -18,8 +18,10 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
     country: '',
     category: 'Technology',
     status: 'active' as 'active' | 'inactive' | 'pending',
-    rating: 0,
-    contactPerson: '',
+    primaryContact: '',
+    secondaryContact: '',
+    secondaryEmail: '',
+    secondaryPhone: '',
     website: '',
     taxId: '',
     paymentTerms: 'Net 30',
@@ -39,8 +41,10 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
         country: supplier.country,
         category: supplier.category,
         status: supplier.status,
-        rating: supplier.rating,
-        contactPerson: supplier.contactPerson,
+        primaryContact: supplier.primaryContact,
+        secondaryContact: supplier.secondaryContact || '',
+        secondaryEmail: supplier.secondaryEmail || '',
+        secondaryPhone: supplier.secondaryPhone || '',
         website: supplier.website || '',
         taxId: supplier.taxId || '',
         paymentTerms: supplier.paymentTerms,
@@ -59,8 +63,7 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.city.trim()) newErrors.city = 'City is required';
     if (!formData.country.trim()) newErrors.country = 'Country is required';
-    if (!formData.contactPerson.trim()) newErrors.contactPerson = 'Contact person is required';
-    if (formData.rating < 0 || formData.rating > 5) newErrors.rating = 'Rating must be between 0 and 5';
+    if (!formData.primaryContact.trim()) newErrors.primaryContact = 'Primary contact is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -81,7 +84,7 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'rating' ? parseFloat(value) || 0 : value
+      [name]: value
     }));
     
     // Clear error when user starts typing
@@ -91,12 +94,12 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
   };
 
   const categories = [
-    'Parts',
-    'Supplies - General', 
-    'Equipment Mfg.',
     'Equipment Dealer',
+    'Equipment Mfg.',
     'Financing',
+    'Parts',
     'Software / IT',
+    'Supplies - General', 
     'Utilities'
   ];
   const paymentTermsOptions = ['Net 15', 'Net 30', 'Net 45', 'Net 60'];
@@ -177,19 +180,61 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Contact Person *
+                  Primary Contact *
                 </label>
                 <input
                   type="text"
-                  name="contactPerson"
-                  value={formData.contactPerson}
+                  name="primaryContact"
+                  value={formData.primaryContact}
                   onChange={handleChange}
                   className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.contactPerson ? 'border-red-300' : 'border-gray-300'
+                    errors.primaryContact ? 'border-red-300' : 'border-gray-300'
                   }`}
-                  placeholder="Enter contact person name"
+                  placeholder="Enter primary contact name"
                 />
-                {errors.contactPerson && <p className="text-red-500 text-xs mt-1">{errors.contactPerson}</p>}
+                {errors.primaryContact && <p className="text-red-500 text-xs mt-1">{errors.primaryContact}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Secondary Contact
+                </label>
+                <input
+                  type="text"
+                  name="secondaryContact"
+                  value={formData.secondaryContact}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter secondary contact name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Secondary Email
+                </label>
+                <input
+                  type="email"
+                  name="secondaryEmail"
+                  value={formData.secondaryEmail}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter secondary email address"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Secondary Phone
+                </label>
+                <input
+                  type="tel"
+                  name="secondaryPhone"
+                  value={formData.secondaryPhone}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter secondary phone number"
+                />
               </div>
 
               <div>
@@ -298,28 +343,8 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Rating (0-5)
-                  </label>
-                  <input
-                    type="number"
-                    name="rating"
-                    value={formData.rating}
-                    onChange={handleChange}
-                    min="0"
-                    max="5"
-                    step="0.1"
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.rating ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="0.0"
-                  />
-                  {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
-                </div>
 
-                <div>
+              <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Payment Terms
                   </label>
@@ -333,7 +358,6 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
                       <option key={term} value={term}>{term}</option>
                     ))}
                   </select>
-                </div>
               </div>
 
               <div>
