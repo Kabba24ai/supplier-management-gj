@@ -357,8 +357,8 @@ function App() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Parts</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Tags</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-80">Parts</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-80">Tags</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -407,8 +407,8 @@ function App() {
                           <span className="capitalize">{supplier.status}</span>
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-900 w-64">
-                        <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
+                      <td className="px-6 py-4 text-sm text-gray-900 w-80">
+                        <div className="flex flex-wrap gap-1 max-w-sm max-h-12 overflow-hidden">
                           {parts.filter(part => part.supplierIds.includes(supplier.id)).slice(0, 4).map((part, index) => (
                             <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-700 whitespace-nowrap">
                               {part.name}
@@ -421,8 +421,8 @@ function App() {
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-900 w-64">
-                        <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
+                      <td className="px-6 py-4 text-sm text-gray-900 w-80">
+                        <div className="flex flex-wrap gap-1 max-w-sm max-h-12 overflow-hidden">
                           {supplier.tags.slice(0, 6).map((tag, index) => (
                             <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 whitespace-nowrap">
                               #{tag}
