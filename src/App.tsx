@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag } from 'lucide-react';
+import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag, Folder } from 'lucide-react';
 import SupplierModal from './components/SupplierModal';
 import TagsManagement from './components/TagsManagement';
+import CategoriesManagement from './components/CategoriesManagement';
 import { Supplier } from './types/supplier';
 import { mockSuppliers } from './data/mockData';
 
@@ -15,6 +16,7 @@ function App() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [showTagsManagement, setShowTagsManagement] = useState(false);
+  const [showCategoriesManagement, setShowCategoriesManagement] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
 
   const categories = Array.from(new Set(suppliers.map(s => s.category)));
@@ -166,6 +168,13 @@ function App() {
             <p className="text-gray-600 mt-1">Manage your supplier database</p>
           </div>
           <div className="flex gap-3">
+            <button
+              onClick={() => setShowCategoriesManagement(true)}
+              className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-sm"
+            >
+              <Folder className="w-5 h-5 mr-2" />
+              Manage Categories
+            </button>
             <button
               onClick={() => setShowTagsManagement(true)}
               className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-sm"
@@ -437,6 +446,15 @@ function App() {
           suppliers={suppliers}
           onUpdateSuppliers={setSuppliers}
           onClose={() => setShowTagsManagement(false)}
+        />
+      )}
+
+      {/* Categories Management Modal */}
+      {showCategoriesManagement && (
+        <CategoriesManagement
+          suppliers={suppliers}
+          onUpdateSuppliers={setSuppliers}
+          onClose={() => setShowCategoriesManagement(false)}
         />
       )}
     </div>
