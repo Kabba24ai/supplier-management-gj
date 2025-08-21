@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail } from 'lucide-react';
+import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag } from 'lucide-react';
 import SupplierModal from './components/SupplierModal';
+import TagsManagement from './components/TagsManagement';
 import { Supplier } from './types/supplier';
 import { mockSuppliers } from './data/mockData';
 
@@ -13,6 +14,7 @@ function App() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showModal, setShowModal] = useState(false);
+  const [showTagsManagement, setShowTagsManagement] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
 
   const categories = Array.from(new Set(suppliers.map(s => s.category)));
@@ -163,13 +165,22 @@ function App() {
             <h2 className="text-3xl font-bold text-gray-900">Suppliers</h2>
             <p className="text-gray-600 mt-1">Manage your supplier database</p>
           </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-          >
-            <Plus className="w-5 h-5 mr-2" />
-            Add Supplier
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setShowTagsManagement(true)}
+              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-sm"
+            >
+              <Tag className="w-5 h-5 mr-2" />
+              Manage Tags
+            </button>
+            <button
+              onClick={() => setShowModal(true)}
+              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Add Supplier
+            </button>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -417,6 +428,15 @@ function App() {
           supplier={editingSupplier}
           onSave={editingSupplier ? handleEditSupplier : handleAddSupplier}
           onClose={closeModal}
+        />
+      )}
+
+      {/* Tags Management Modal */}
+      {showTagsManagement && (
+        <TagsManagement
+          suppliers={suppliers}
+          onUpdateSuppliers={setSuppliers}
+          onClose={() => setShowTagsManagement(false)}
         />
       )}
     </div>
