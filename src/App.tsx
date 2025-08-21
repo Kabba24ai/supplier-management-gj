@@ -207,7 +207,7 @@ function App() {
         </div>
 
         {/* Search and Filters */}
-          <div className="flex gap-4 items-end flex-wrap">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -218,20 +218,6 @@ function App() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search suppliers by name, email, or contact person..."
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Search Tags</label>
-              <div className="relative w-[300px]">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search by tags (e.g., automotive, oem)..."
-                  value={tagFilter}
-                  onChange={(e) => setTagFilter(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -307,7 +293,7 @@ function App() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+                      Products & Tags
                 {filteredSuppliers.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="text-center py-12">
