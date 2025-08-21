@@ -170,6 +170,7 @@ function App() {
     setNameEmailSearch('');
     setCompanySearch('');
     setTagSearch('');
+    setPartSearch('');
     setStatusFilter('all');
     setCategoryFilter('all');
   };
@@ -305,7 +306,8 @@ function App() {
 
         {/* Search and Filters */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {/* Row 1 - Text Searches */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4">
             {/* Name/Email Search */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Name / Email</label>
@@ -317,7 +319,6 @@ function App() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
             </div>
-
 
             {/* Company Search */}
             <div>
@@ -331,6 +332,33 @@ function App() {
               />
             </div>
 
+            {/* Tags Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <input
+                type="text"
+                value={tagSearch}
+                onChange={(e) => setTagSearch(e.target.value)}
+                placeholder="Search by tags..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            {/* Parts Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Search by Part</label>
+              <input
+                type="text"
+                value={partSearch}
+                onChange={(e) => setPartSearch(e.target.value)}
+                placeholder="Search by part name..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+          </div>
+
+          {/* Row 2 - Filters and Actions */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Category Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Supplier Category</label>
@@ -346,44 +374,37 @@ function App() {
               </select>
             </div>
 
-            {/* Tags Search */}
+            {/* Status Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-              <input
-                type="text"
-                value={tagSearch}
-                onChange={(e) => setTagSearch(e.target.value)}
-                placeholder="Search by tags..."
+              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-              />
+              >
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="pending">Pending</option>
+              </select>
             </div>
 
-            {/* Status Filter and Clear Button */}
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                >
-                  <option value="all">All</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="pending">Pending</option>
-                </select>
-              </div>
-              <div className="flex items-end">
-                <button
-                  onClick={clearFilters}
-                  className="px-2 py-1.5 text-xs text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
-                >
-                  Clear All
-                </button>
-              </div>
+            {/* Clear Filters Button */}
+            <div className="flex items-end">
+              <button
+                onClick={clearFilters}
+                className="w-full px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Clear All Filters
+              </button>
             </div>
           </div>
         </div>
+
+      </main>
+
+      {/* Full-width Suppliers Table */}
+      <div className="w-full">
 
         {/* Suppliers Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -395,6 +416,7 @@ function App() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Parts</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Tags</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -402,7 +424,7 @@ function App() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredSuppliers.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="text-center py-12">
+                    <td colSpan={7} className="text-center py-12">
                       <Users className="mx-auto h-12 w-12 text-gray-400" />
                       <h3 className="mt-2 text-sm font-medium text-gray-900">No suppliers found</h3>
                       <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
@@ -443,6 +465,20 @@ function App() {
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(supplier.status)}`}>
                           <span className="capitalize">{supplier.status}</span>
                         </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 w-64">
+                        <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
+                          {parts.filter(part => part.supplierIds.includes(supplier.id)).slice(0, 4).map((part, index) => (
+                            <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-700 whitespace-nowrap">
+                              {part.name}
+                            </span>
+                          ))}
+                          {parts.filter(part => part.supplierIds.includes(supplier.id)).length > 4 && (
+                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-200 text-orange-800 whitespace-nowrap">
+                              +{parts.filter(part => part.supplierIds.includes(supplier.id)).length - 4} more
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900 w-64">
                         <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
@@ -489,7 +525,7 @@ function App() {
             </table>
           </div>
         </div>
-      </main>
+      </div>
 
       {/* Supplier Modal */}
       {showModal && (
