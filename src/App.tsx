@@ -68,13 +68,6 @@ function App() {
 
   const categories = Array.from(new Set(suppliers.map(s => s.category)));
 
-  const stats = {
-    total: suppliers.length,
-    active: suppliers.filter(s => s.status === 'active').length,
-    avgRating: suppliers.reduce((sum, s) => sum + s.rating, 0) / suppliers.length,
-    totalTags: Array.from(new Set(suppliers.flatMap(s => s.tags))).length
-  };
-
   useEffect(() => {
     let filtered = suppliers;
 
@@ -253,61 +246,12 @@ function App() {
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Suppliers</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">{stats.total}</p>
-              </div>
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </div>
+      </main>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Active Suppliers</p>
-                <p className="text-3xl font-bold text-green-600 mt-1">{stats.active}</p>
-              </div>
-              <div className="bg-green-50 p-3 rounded-lg">
-                <Building2 className="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Unique Tags</p>
-                <p className="text-3xl font-bold text-purple-600 mt-1">{stats.totalTags}</p>
-              </div>
-              <div className="bg-purple-50 p-3 rounded-lg">
-                <DollarSign className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Avg Rating</p>
-                <p className="text-3xl font-bold text-orange-600 mt-1">{stats.avgRating.toFixed(1)}</p>
-              </div>
-              <div className="bg-orange-50 p-3 rounded-lg">
-                <Star className="w-6 h-6 text-orange-600" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-          {/* Row 1 - Text Searches */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4">
+      {/* Search and Filters - Full Width */}
+      <div className="w-full bg-white shadow-sm border-b border-gray-200 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
             {/* Name/Email Search */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Name / Email</label>
@@ -355,13 +299,10 @@ function App() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
             </div>
-          </div>
 
-          {/* Row 2 - Filters and Actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Category Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Supplier Category</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
@@ -388,141 +329,142 @@ function App() {
                 <option value="pending">Pending</option>
               </select>
             </div>
+          </div>
 
-            {/* Clear Filters Button */}
-            <div className="flex items-end">
-              <button
-                onClick={clearFilters}
-                className="w-full px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Clear All Filters
-              </button>
-            </div>
+          {/* Clear Filters Button */}
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={clearFilters}
+              className="px-6 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Clear All Filters
+            </button>
           </div>
         </div>
-
-      </main>
+      </div>
 
       {/* Full-width Suppliers Table */}
-      <div className="w-full">
+      <div className="w-full bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Suppliers Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Parts</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Tags</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredSuppliers.length === 0 ? (
+          {/* Suppliers Table */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <td colSpan={7} className="text-center py-12">
-                      <Users className="mx-auto h-12 w-12 text-gray-400" />
-                      <h3 className="mt-2 text-sm font-medium text-gray-900">No suppliers found</h3>
-                      <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
-                    </td>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Parts</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Tags</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
-                ) : (
-                  filteredSuppliers.map((supplier) => (
-                    <tr key={supplier.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10">
-                            <div className={`h-10 w-10 rounded-full bg-gradient-to-r ${getCategoryColor(supplier.category)} flex items-center justify-center`}>
-                              {getCategoryIcon(supplier.category)}
-                            </div>
-                          </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
-                            <div className="text-sm text-gray-500">{supplier.contactPerson}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900 flex items-center">
-                          <Mail className="w-4 h-4 mr-2 text-gray-400" />
-                          {supplier.email}
-                        </div>
-                        <div className="text-sm text-gray-500 flex items-center mt-1">
-                          <Phone className="w-4 h-4 mr-2 text-gray-400" />
-                          {supplier.phone}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          {supplier.category}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(supplier.status)}`}>
-                          <span className="capitalize">{supplier.status}</span>
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-900 w-64">
-                        <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
-                          {parts.filter(part => part.supplierIds.includes(supplier.id)).slice(0, 4).map((part, index) => (
-                            <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-700 whitespace-nowrap">
-                              {part.name}
-                            </span>
-                          ))}
-                          {parts.filter(part => part.supplierIds.includes(supplier.id)).length > 4 && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-200 text-orange-800 whitespace-nowrap">
-                              +{parts.filter(part => part.supplierIds.includes(supplier.id)).length - 4} more
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-900 w-64">
-                        <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
-                          {supplier.tags.slice(0, 6).map((tag, index) => (
-                            <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 whitespace-nowrap">
-                              #{tag}
-                            </span>
-                          ))}
-                          {supplier.tags.length > 6 && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-700 whitespace-nowrap">
-                              +{supplier.tags.length - 6} more
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex items-center space-x-2">
-                          <button
-                            className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 transition-colors"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => openEditModal(supplier)}
-                            className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50 transition-colors"
-                            title="Edit"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteSupplier(supplier.id)}
-                            className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50 transition-colors"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredSuppliers.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="text-center py-12">
+                        <Users className="mx-auto h-12 w-12 text-gray-400" />
+                        <h3 className="mt-2 text-sm font-medium text-gray-900">No suppliers found</h3>
+                        <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    filteredSuppliers.map((supplier) => (
+                      <tr key={supplier.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-10 w-10">
+                              <div className={`h-10 w-10 rounded-full bg-gradient-to-r ${getCategoryColor(supplier.category)} flex items-center justify-center`}>
+                                {getCategoryIcon(supplier.category)}
+                              </div>
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
+                              <div className="text-sm text-gray-500">{supplier.contactPerson}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900 flex items-center">
+                            <Mail className="w-4 h-4 mr-2 text-gray-400" />
+                            {supplier.email}
+                          </div>
+                          <div className="text-sm text-gray-500 flex items-center mt-1">
+                            <Phone className="w-4 h-4 mr-2 text-gray-400" />
+                            {supplier.phone}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            {supplier.category}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(supplier.status)}`}>
+                            <span className="capitalize">{supplier.status}</span>
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-900 w-64">
+                          <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
+                            {parts.filter(part => part.supplierIds.includes(supplier.id)).slice(0, 4).map((part, index) => (
+                              <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-700 whitespace-nowrap">
+                                {part.name}
+                              </span>
+                            ))}
+                            {parts.filter(part => part.supplierIds.includes(supplier.id)).length > 4 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-200 text-orange-800 whitespace-nowrap">
+                                +{parts.filter(part => part.supplierIds.includes(supplier.id)).length - 4} more
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-900 w-64">
+                          <div className="flex flex-wrap gap-1 max-w-xs max-h-12 overflow-hidden">
+                            {supplier.tags.slice(0, 6).map((tag, index) => (
+                              <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 whitespace-nowrap">
+                                #{tag}
+                              </span>
+                            ))}
+                            {supplier.tags.length > 6 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-700 whitespace-nowrap">
+                                +{supplier.tags.length - 6} more
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center space-x-2">
+                            <button
+                              className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 transition-colors"
+                              title="View Details"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => openEditModal(supplier)}
+                              className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50 transition-colors"
+                              title="Edit"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteSupplier(supplier.id)}
+                              className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50 transition-colors"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
