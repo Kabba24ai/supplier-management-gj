@@ -3,6 +3,7 @@ import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Tr
 import SupplierModal from './components/SupplierModal';
 import TagsManagement from './components/TagsManagement';
 import CategoriesManagement from './components/CategoriesManagement';
+import SupplierDetails from './components/SupplierDetails';
 import { Supplier } from './types/supplier';
 import { mockSuppliers } from './data/mockData';
 import { mockParts, Part } from './data/mockPartsData';
@@ -64,7 +65,9 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showTagsManagement, setShowTagsManagement] = useState(false);
   const [showCategoriesManagement, setShowCategoriesManagement] = useState(false);
+  const [showSupplierDetails, setShowSupplierDetails] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
+  const [viewingSupplier, setViewingSupplier] = useState<Supplier | null>(null);
 
   const categories = Array.from(new Set(suppliers.map(s => s.category)));
 
@@ -154,9 +157,19 @@ function App() {
     setShowModal(true);
   };
 
+  const openSupplierDetails = (supplier: Supplier) => {
+    setViewingSupplier(supplier);
+    setShowSupplierDetails(true);
+  };
+
   const closeModal = () => {
     setShowModal(false);
     setEditingSupplier(null);
+  };
+
+  const closeSupplierDetails = () => {
+    setShowSupplierDetails(false);
+    setViewingSupplier(null);
   };
 
   const clearFilters = () => {
@@ -438,6 +451,7 @@ function App() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex items-center space-x-2">
                           <button
+                            onClick={() => openSupplierDetails(supplier)}
                             className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 transition-colors"
                             title="View Details"
                           >
@@ -494,6 +508,14 @@ function App() {
           suppliers={suppliers}
           onUpdateSuppliers={setSuppliers}
           onClose={() => setShowCategoriesManagement(false)}
+        />
+      )}
+
+      {/* Supplier Details Modal */}
+      {showSupplierDetails && viewingSupplier && (
+        <SupplierDetails
+          supplier={viewingSupplier}
+          onClose={closeSupplierDetails}
         />
       )}
     </div>
