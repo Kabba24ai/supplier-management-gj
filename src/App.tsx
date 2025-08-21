@@ -50,6 +50,7 @@ const getCategoryColor = (category: string) => {
       return 'from-blue-500 to-purple-600';
   }
 };
+
 function App() {
   const [suppliers, setSuppliers] = useState<Supplier[]>(mockSuppliers);
   const [filteredSuppliers, setFilteredSuppliers] = useState<Supplier[]>(mockSuppliers);
@@ -123,7 +124,8 @@ function App() {
     }
 
     setFilteredSuppliers(filtered);
-  }, [suppliers, parts, nameEmailSearch, companySearch, tagSearch, partSearch, statusFilter, categoryFilter]);
+  }, [nameEmailSearch, companySearch, tagSearch, partSearch, statusFilter, categoryFilter, suppliers, parts]);
+
   const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => {
     const newSupplier: Supplier = {
       ...supplierData,
@@ -168,7 +170,6 @@ function App() {
     setNameEmailSearch('');
     setCompanySearch('');
     setTagSearch('');
-    setPartSearch('');
     setStatusFilter('all');
     setCategoryFilter('all');
   };
@@ -304,77 +305,62 @@ function App() {
 
         {/* Search and Filters */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-          <div className="space-y-4">
-            {/* First Row - Text Searches */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-              {/* Name/Email Search */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name / Email</label>
-                <input
-                  type="text"
-                  value={nameEmailSearch}
-                  onChange={(e) => setNameEmailSearch(e.target.value)}
-                  placeholder="Search by contact person or email..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                />
-              </div>
-
-              {/* Company Search */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Company Search</label>
-                <input
-                  type="text"
-                  value={companySearch}
-                  onChange={(e) => setCompanySearch(e.target.value)}
-                  placeholder="Search by company name..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                />
-              </div>
-
-              {/* Tags Search */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-                <input
-                  type="text"
-                  value={tagSearch}
-                  onChange={(e) => setTagSearch(e.target.value)}
-                  placeholder="Search by tags..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                />
-              </div>
-
-              {/* Parts Search */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Search by Part</label>
-                <input
-                  type="text"
-                  value={partSearch}
-                  onChange={(e) => setPartSearch(e.target.value)}
-                  placeholder="Search by part name..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                />
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            {/* Name/Email Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name / Email</label>
+              <input
+                type="text"
+                value={nameEmailSearch}
+                onChange={(e) => setNameEmailSearch(e.target.value)}
+                placeholder="Search by contact person or email..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
             </div>
 
-            {/* Second Row - Filters and Actions */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              {/* Category Filter */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Supplier Category</label>
-                <select
-                  value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                >
-                  <option value="all">All Categories</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
 
-              {/* Status Filter */}
-              <div>
+            {/* Company Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Company Search</label>
+              <input
+                type="text"
+                value={companySearch}
+                onChange={(e) => setCompanySearch(e.target.value)}
+                placeholder="Search by company name..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            {/* Category Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Supplier Category</label>
+              <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              >
+                <option value="all">All Categories</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tags Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <input
+                type="text"
+                value={tagSearch}
+                onChange={(e) => setTagSearch(e.target.value)}
+                placeholder="Search by tags..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            {/* Status Filter and Clear Button */}
+            <div className="flex gap-2">
+              <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select
                   value={statusFilter}
@@ -387,19 +373,18 @@ function App() {
                   <option value="pending">Pending</option>
                 </select>
               </div>
-
-              {/* Clear Filters Button */}
               <div className="flex items-end">
                 <button
                   onClick={clearFilters}
-                  className="w-full px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-2 py-1.5 text-xs text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
                 >
-                  Clear All Filters
+                  Clear All
                 </button>
               </div>
             </div>
           </div>
         </div>
+
         {/* Suppliers Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
