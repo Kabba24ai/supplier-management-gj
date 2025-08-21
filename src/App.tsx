@@ -475,6 +475,7 @@ function App() {
           supplier={editingSupplier}
           onSave={editingSupplier ? handleEditSupplier : handleAddSupplier}
           onClose={closeModal}
+          existingTags={Array.from(new Set(suppliers.flatMap(s => s.tags)))}
         />
       )}
 

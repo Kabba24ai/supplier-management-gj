@@ -5,6 +5,8 @@ export interface Supplier {
   phone: string;
   address: string;
   city: string;
+  state?: string;
+  zip?: string;
   country: string;
   category: string;
   status: 'active' | 'inactive' | 'pending';
