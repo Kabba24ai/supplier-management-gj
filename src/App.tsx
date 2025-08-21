@@ -285,15 +285,14 @@ function App() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tags</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-64">Tags</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredSuppliers.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-12">
+                    <td colSpan={6} className="text-center py-12">
                       <Users className="mx-auto h-12 w-12 text-gray-400" />
                       <h3 className="mt-2 text-sm font-medium text-gray-900">No suppliers found</h3>
                       <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
@@ -335,26 +334,13 @@ function App() {
                           <span className="capitalize">{supplier.status}</span>
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex flex-wrap gap-1">
-                          {supplier.tags.slice(0, 2).map((tag, index) => (
+                      <td className="px-6 py-4 text-sm text-gray-900 w-64">
+                        <div className="flex flex-wrap gap-1 max-w-xs">
+                          {supplier.tags.map((tag, index) => (
                             <span key={index} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
                               #{tag}
                             </span>
                           ))}
-                          {supplier.tags.length > 2 && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-200 text-gray-600">
-                              +{supplier.tags.length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="flex">
-                            {renderStars(supplier.rating)}
-                          </div>
-                          <span className="ml-2 text-sm text-gray-600">{supplier.rating}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
