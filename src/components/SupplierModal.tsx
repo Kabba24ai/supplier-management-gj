@@ -627,7 +627,6 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
                 </div>
               </div>
             </div>
-          </div>
 
           {/* Form Actions */}
           <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
