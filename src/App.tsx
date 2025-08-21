@@ -119,7 +119,6 @@ function App() {
     setFilteredSuppliers(filtered);
   }, [nameEmailSearch, companySearch, tagSearch, partSearch, statusFilter, categoryFilter, suppliers, parts]);
 
-  const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => {
   const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'lastOrder' | 'joinDate'>) => {
     const newSupplier: Supplier = {
       ...supplierData,
@@ -131,7 +130,6 @@ function App() {
     setShowModal(false);
   };
 
-  const handleEditSupplier = (supplierData: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => {
   const handleEditSupplier = (supplierData: Omit<Supplier, 'id' | 'lastOrder' | 'joinDate'>) => {
     if (!editingSupplier) return;
     
