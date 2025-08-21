@@ -9,12 +9,11 @@ export interface Supplier {
   category: string;
   status: 'active' | 'inactive' | 'pending';
   rating: number;
-  totalOrders: number;
-  totalValue: number;
   lastOrder: string | null;
   contactPerson: string;
   website?: string;
   taxId?: string;
   paymentTerms: string;
   joinDate: string;
+  tags: string[];
 }

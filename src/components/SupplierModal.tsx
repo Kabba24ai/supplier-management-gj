@@ -22,7 +22,8 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
     contactPerson: '',
     website: '',
     taxId: '',
-    paymentTerms: 'Net 30'
+    paymentTerms: 'Net 30',
+    tags: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -42,7 +43,8 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
         contactPerson: supplier.contactPerson,
         website: supplier.website || '',
         taxId: supplier.taxId || '',
-        paymentTerms: supplier.paymentTerms
+        paymentTerms: supplier.paymentTerms,
+        tags: supplier.tags.join(', ')
       });
     }
   }, [supplier]);
@@ -67,7 +69,11 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      onSave(formData);
+      const supplierData = {
+        ...formData,
+        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+      };
+      onSave(supplierData);
     }
   };
 
@@ -334,6 +340,21 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter tax identification number"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tags
+                </label>
+                <input
+                  type="text"
+                  name="tags"
+                  value={formData.tags}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g. automotive, oem-parts, fast-delivery (comma separated)"
+                />
+                <p className="text-xs text-gray-500 mt-1">Separate tags with commas for better search identification</p>
               </div>
             </div>
           </div>

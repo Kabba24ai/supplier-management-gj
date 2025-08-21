@@ -12,14 +12,13 @@ export const mockSuppliers: Supplier[] = [
     category: 'Technology',
     status: 'active',
     rating: 4.8,
-    totalOrders: 156,
-    totalValue: 2450000,
     lastOrder: '2024-01-15',
     contactPerson: 'Sarah Johnson',
     website: 'https://www.techflow.com',
     taxId: 'US123456789',
     paymentTerms: 'Net 30',
-    joinDate: '2023-03-15'
+    joinDate: '2023-03-15',
+    tags: ['software', 'cloud-services', 'api-integration', 'enterprise']
   },
   {
     id: 2,
@@ -32,14 +31,13 @@ export const mockSuppliers: Supplier[] = [
     category: 'Manufacturing',
     status: 'active',
     rating: 4.5,
-    totalOrders: 89,
-    totalValue: 1890000,
     lastOrder: '2024-01-12',
     contactPerson: 'Michael Chen',
     website: 'https://www.globalmanuf.com',
     taxId: 'US987654321',
     paymentTerms: 'Net 45',
-    joinDate: '2023-01-20'
+    joinDate: '2023-01-20',
+    tags: ['automotive', 'precision-parts', 'oem', 'iso-certified']
   },
   {
     id: 3,
@@ -52,14 +50,13 @@ export const mockSuppliers: Supplier[] = [
     category: 'Sustainability',
     status: 'pending',
     rating: 4.2,
-    totalOrders: 34,
-    totalValue: 567000,
     lastOrder: '2024-01-08',
     contactPerson: 'Emma Rodriguez',
     website: 'https://www.ecosupply.com',
     taxId: 'US456789123',
     paymentTerms: 'Net 15',
-    joinDate: '2023-11-10'
+    joinDate: '2023-11-10',
+    tags: ['eco-friendly', 'renewable', 'carbon-neutral', 'sustainable-packaging']
   },
   {
     id: 4,
@@ -72,14 +69,13 @@ export const mockSuppliers: Supplier[] = [
     category: 'Materials',
     status: 'active',
     rating: 4.9,
-    totalOrders: 203,
-    totalValue: 3200000,
     lastOrder: '2024-01-14',
     contactPerson: 'James Wilson',
     website: 'https://www.premiummaterials.com',
     taxId: 'GB123456789',
     paymentTerms: 'Net 30',
-    joinDate: '2022-08-05'
+    joinDate: '2022-08-05',
+    tags: ['high-grade', 'specialty-metals', 'bulk-orders', 'fast-delivery']
   },
   {
     id: 5,
@@ -92,14 +88,13 @@ export const mockSuppliers: Supplier[] = [
     category: 'Technology',
     status: 'inactive',
     rating: 3.8,
-    totalOrders: 67,
-    totalValue: 890000,
     lastOrder: '2023-12-20',
     contactPerson: 'Lisa Park',
     website: 'https://www.digitalinnovations.com',
     taxId: 'US789123456',
     paymentTerms: 'Net 60',
-    joinDate: '2023-06-12'
+    joinDate: '2023-06-12',
+    tags: ['mobile-apps', 'ui-ux', 'consulting', 'startup-friendly']
   },
   {
     id: 6,
@@ -112,13 +107,12 @@ export const mockSuppliers: Supplier[] = [
     category: 'Services',
     status: 'active',
     rating: 4.3,
-    totalOrders: 112,
-    totalValue: 1340000,
     lastOrder: '2024-01-10',
     contactPerson: 'Robert Kim',
     website: 'https://www.reliableservices.com',
     taxId: 'US321654987',
     paymentTerms: 'Net 30',
-    joinDate: '2023-04-22'
+    joinDate: '2023-04-22',
+    tags: ['maintenance', 'support', '24-7-service', 'nationwide']
   }
 ];
