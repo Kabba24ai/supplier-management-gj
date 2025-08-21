@@ -216,7 +216,7 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
         </div>
 
         <form onSubmit={handleSubmit} className="p-6">
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Company Information Section */}
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
@@ -515,7 +515,6 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
                 </div>
               </div>
             </div>
-            </div>
 
             {/* Primary Contact Section */}
             <div className="bg-green-50 rounded-lg p-6">
@@ -627,6 +626,7 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ supplier, onSave, onClose
                 </div>
               </div>
             </div>
+          </div>
 
           {/* Form Actions */}
           <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
