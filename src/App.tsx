@@ -7,10 +7,11 @@ import { mockSuppliers } from './data/mockData';
 function App() {
   const [suppliers, setSuppliers] = useState<Supplier[]>(mockSuppliers);
   const [filteredSuppliers, setFilteredSuppliers] = useState<Supplier[]>(mockSuppliers);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [nameEmailSearch, setNameEmailSearch] = useState('');
+  const [companySearch, setCompanySearch] = useState('');
+  const [tagSearch, setTagSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
-  const [showFilters, setShowFilters] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
 
@@ -26,11 +27,27 @@ function App() {
   useEffect(() => {
     let filtered = suppliers;
 
-    if (searchTerm) {
+    // Search by name/email (contact person)
+    if (nameEmailSearch) {
       filtered = filtered.filter(supplier =>
-        supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.contactPerson.toLowerCase().includes(searchTerm.toLowerCase())
+        supplier.email.toLowerCase().includes(nameEmailSearch.toLowerCase()) ||
+        supplier.contactPerson.toLowerCase().includes(nameEmailSearch.toLowerCase())
+      );
+    }
+
+    // Search by company name
+    if (companySearch) {
+      filtered = filtered.filter(supplier =>
+        supplier.name.toLowerCase().includes(companySearch.toLowerCase())
+      );
+    }
+
+    // Search by tags
+    if (tagSearch) {
+      filtered = filtered.filter(supplier =>
+        supplier.tags.some(tag => 
+          tag.toLowerCase().includes(tagSearch.toLowerCase())
+        )
       );
     }
 
@@ -43,7 +60,7 @@ function App() {
     }
 
     setFilteredSuppliers(filtered);
-  }, [suppliers, searchTerm, statusFilter, categoryFilter]);
+  }, [suppliers, nameEmailSearch, companySearch, tagSearch, statusFilter, categoryFilter]);
 
   const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'totalOrders' | 'totalValue' | 'lastOrder' | 'joinDate'>) => {
     const newSupplier: Supplier = {
@@ -86,7 +103,9 @@ function App() {
   };
 
   const clearFilters = () => {
-    setSearchTerm('');
+    setNameEmailSearch('');
+    setCompanySearch('');
+    setTagSearch('');
     setStatusFilter('all');
     setCategoryFilter('all');
   };
@@ -206,74 +225,85 @@ function App() {
 
         {/* Search and Filters */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search suppliers by name, email, or contact person..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            {/* Name/Email Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name / Email</label>
+              <input
+                type="text"
+                value={nameEmailSearch}
+                onChange={(e) => setNameEmailSearch(e.target.value)}
+                placeholder="Search by contact person or email..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
             </div>
+
+
+            {/* Company Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Company Search</label>
+              <input
+                type="text"
+                value={companySearch}
+                onChange={(e) => setCompanySearch(e.target.value)}
+                placeholder="Search by company name..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            {/* Category Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+              <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              >
+                <option value="all">All Categories</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tags Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <input
+                type="text"
+                value={tagSearch}
+                onChange={(e) => setTagSearch(e.target.value)}
+                placeholder="Search by tags..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            {/* Status Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              >
+                <option value="all">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="pending">Pending</option>
+              </select>
+            </div>
+          </div>
+          
+          {/* Clear Filters Button */}
+          <div className="mt-4 flex justify-end">
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`inline-flex items-center px-4 py-2 border rounded-lg transition-colors ${
-                showFilters ? 'bg-blue-50 border-blue-200 text-blue-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
+              onClick={clearFilters}
+              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm"
             >
-              <Filter className="w-5 h-5 mr-2" />
-              Filters
+              Clear All Filters
             </button>
           </div>
         </div>
-
-        {/* Filters Panel */}
-        {showFilters && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6 transition-all duration-300">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="all">All Statuses</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="pending">Pending</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <select
-                  value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="all">All Categories</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex items-end">
-                <button
-                  onClick={clearFilters}
-                  className="w-full px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Clear Filters
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Suppliers Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
