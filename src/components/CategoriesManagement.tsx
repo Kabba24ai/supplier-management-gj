@@ -48,7 +48,7 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
     const uniqueCategories: Category[] = Object.entries(categoryCounts).map(([name, count], index) => ({
       id: index + 1,
       name,
-      usageCount: count
+      usageCount: count,
       isDefault: DEFAULT_CATEGORIES.includes(name)
     }));
 
@@ -71,7 +71,7 @@ const CategoriesManagement: React.FC<CategoriesManagementProps> = ({ suppliers, 
     const newCategory: Category = {
       id: Math.max(...categories.map(c => c.id), 0) + 1,
       name: newCategoryName.trim(),
-      usageCount: 0
+      usageCount: 0,
       isDefault: false
     };
 
