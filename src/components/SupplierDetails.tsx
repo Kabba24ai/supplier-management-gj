@@ -51,9 +51,9 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
 
         {/* Main Content */}
         <div className="p-6">
-          {/* Top Row - Company Info and Contacts */}
+          {/* ROW 1: Company Information + Primary/Technical Contacts */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Company Information */}
+            {/* Column 1: Company Information */}
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-blue-600 p-2 rounded-lg mr-3">
@@ -63,7 +63,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </h3>
               
               <div className="space-y-3">
-                <div className="text-lg font-semibold text-gray-900">{supplier.name}</div>
+                <div className="text-base font-semibold text-gray-900">{supplier.name}</div>
                 
                 <div className="flex items-center text-gray-700">
                   <Phone className="w-4 h-4 text-gray-400 mr-3" />
@@ -117,7 +117,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </div>
             </div>
 
-            {/* Right Column - All 4 Contacts */}
+            {/* Column 2: Primary Contact (top) + Technical Contact (bottom) */}
             <div className="space-y-4">
               {/* Primary Contact */}
               <div className="bg-green-50 rounded-lg p-4">
@@ -182,48 +182,12 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                   </div>
                 </div>
               </div>
-
-              {/* Parts Contact */}
-              <div className="bg-orange-50 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <div className="bg-orange-600 p-2 rounded-lg mr-3">
-                    <Users className="w-4 h-4 text-white" />
-                  </div>
-                  Parts Contact
-                </h3>
-                
-                <div className="space-y-2">
-                  <div className="font-semibold text-gray-900">{supplier.partsContact || 'N/A'}</div>
-                  
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.partsPhone ? (
-                      <a href={`tel:${supplier.partsPhone}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.partsPhone}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.partsEmail ? (
-                      <a href={`mailto:${supplier.partsEmail}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.partsEmail}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Row 2 - Parts Supplied and Parts/Billing Contacts */}
+          {/* ROW 2: Parts Supplied + Parts/Billing Contacts */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Parts Supplied */}
+            {/* Column 1: Parts Supplied */}
             <div className="bg-gray-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-gray-600 p-2 rounded-lg mr-3">
@@ -247,7 +211,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </div>
             </div>
 
-            {/* Right Column - Parts and Billing Contacts */}
+            {/* Column 2: Parts Contact (top) + Billing Contact (bottom) */}
             <div className="space-y-4">
               {/* Parts Contact */}
               <div className="bg-orange-50 rounded-lg p-4">
@@ -323,7 +287,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
             </div>
           </div>
 
-          {/* Row 3 - Tags (Full Width) */}
+          {/* ROW 3: Tags (Full Width) */}
           <div className="bg-purple-50 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <div className="bg-purple-600 p-2 rounded-lg mr-3">
