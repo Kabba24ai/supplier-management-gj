@@ -401,11 +401,11 @@ function App() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex items-center">
-                          <Phone className="w-4 h-4 mr-2 text-gray-400" />
+                          <Building2 className="w-4 h-4 mr-2 text-gray-400" />
                           {supplier.phone || 'N/A'}
                         </div>
                         <div className="text-sm text-gray-500 flex items-center mt-1">
-                          <Phone className="w-4 h-4 mr-2 text-gray-400" />
+                          <User className="w-4 h-4 mr-2 text-gray-400" />
                           {supplier.phone || 'N/A'}
                         </div>
                       </td>
