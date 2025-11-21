@@ -35,74 +35,6 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(supplier.status)}`}>
                   <span className="capitalize">{supplier.status}</span>
                 </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                  {supplier.category}
-                </span>
-              </div>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-white rounded-lg"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        <div className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Company Information */}
-            <div className="bg-blue-50 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                <div className="bg-blue-600 p-2 rounded-lg mr-3">
-                  <Building2 className="w-5 h-5 text-white" />
-                </div>
-                Company Information
-              </h3>
-              
-              <div className="space-y-3">
-                <div className="text-lg font-semibold text-gray-900">{supplier.name}</div>
-                
-                <div className="flex items-center text-gray-700">
-                  <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                  <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
-                    {supplier.phone || 'N/A'}
-                  </a>
-                </div>
-
-                <div className="flex items-center text-gray-700">
-                  <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                  <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
-                    {supplier.email || 'N/A'}
-                  </a>
-                </div>
-
-                <div className="flex items-center text-gray-700">
-                  <Globe className="w-4 h-4 text-gray-400 mr-3" />
-                  {supplier.website ? (
-                    <a href={supplier.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
-                      {supplier.website}
-                    </a>
-                  ) : (
-                    <span className="text-gray-500">N/A</span>
-                  )}
-                </div>
-
-                <div className="flex items-start text-gray-700">
-                  <MapPin className="w-4 h-4 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <div>{supplier.address || 'N/A'}</div>
-                    <div>
-                      {supplier.city && supplier.state && supplier.zip 
-                        ? `${supplier.city}, ${supplier.state} ${supplier.zip}`
-                        : supplier.city || 'N/A'
-                      }
-                    </div>
-                    <div>{supplier.country}</div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 pt-2">
                   <div>
                     <div className="text-sm text-gray-600">Tax ID</div>
                     <div className="font-medium">{supplier.taxId || 'N/A'}</div>
@@ -114,11 +46,9 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Bottom Row */}
+          {/* Bottom Row - Parts Supplied and Tags side by side */}
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-
             {/* Parts Supplied */}
             <div className="bg-gray-50 rounded-lg p-6">
               <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
@@ -141,12 +71,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </div>
             </div>
 
-            {/* Placeholder for balance */}
-            <div></div>
-          </div>
-
-          {/* Tags Section */}
-          <div className="mt-6">
+            {/* Tags */}
             <div className="bg-purple-50 rounded-lg p-6">
               <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-purple-600 p-2 rounded-lg mr-3">
