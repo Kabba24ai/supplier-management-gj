@@ -24,7 +24,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-lg mr-4">
               <Building2 className="w-8 h-8 text-white" />
@@ -35,6 +35,76 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(supplier.status)}`}>
                   <span className="capitalize">{supplier.status}</span>
                 </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                  {supplier.category}
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* Main Content */}
+        <div className="p-6">
+          {/* Top Row - Company Info and Contacts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* Company Information */}
+            <div className="bg-blue-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-blue-600 p-2 rounded-lg mr-3">
+                  <Building2 className="w-5 h-5 text-white" />
+                </div>
+                Company Information
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="text-lg font-semibold text-gray-900">{supplier.name}</div>
+                
+                <div className="flex items-center text-gray-700">
+                  <Phone className="w-4 h-4 text-gray-400 mr-3" />
+                  <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
+                    {supplier.phone || 'N/A'}
+                  </a>
+                </div>
+
+                <div className="flex items-center text-gray-700">
+                  <Mail className="w-4 h-4 text-gray-400 mr-3" />
+                  <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
+                    {supplier.email || 'N/A'}
+                  </a>
+                </div>
+
+                <div className="flex items-center text-gray-700">
+                  <Globe className="w-4 h-4 text-gray-400 mr-3" />
+                  {supplier.website ? (
+                    <a href={supplier.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                      {supplier.website}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </div>
+
+                <div className="flex items-start text-gray-700">
+                  <MapPin className="w-4 h-4 text-gray-400 mr-3 mt-1" />
+                  <div>
+                    <div>{supplier.address || 'N/A'}</div>
+                    <div>
+                      {supplier.city && supplier.state && supplier.zip 
+                        ? `${supplier.city}, ${supplier.state} ${supplier.zip}`
+                        : supplier.city || 'N/A'
+                      }
+                    </div>
+                    <div>{supplier.country}</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-2">
                   <div>
                     <div className="text-sm text-gray-600">Tax ID</div>
                     <div className="font-medium">{supplier.taxId || 'N/A'}</div>
@@ -47,11 +117,81 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </div>
             </div>
 
-          {/* Bottom Row - Parts Supplied and Tags side by side */}
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Right Column - Contacts */}
+            <div className="space-y-6">
+              {/* Primary Contact */}
+              <div className="bg-green-50 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <div className="bg-green-600 p-2 rounded-lg mr-3">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  Primary Contact
+                </h3>
+                
+                <div className="space-y-3">
+                  <div className="text-lg font-semibold text-gray-900">{supplier.primaryContact || 'N/A'}</div>
+                  
+                  <div className="flex items-center text-gray-700">
+                    <Phone className="w-4 h-4 text-gray-400 mr-3" />
+                    <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.phone || 'N/A'}
+                    </a>
+                  </div>
+
+                  <div className="flex items-center text-gray-700">
+                    <Mail className="w-4 h-4 text-gray-400 mr-3" />
+                    <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.email || 'N/A'}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Secondary Contact */}
+              {(supplier.secondaryContact || supplier.secondaryEmail || supplier.secondaryPhone) && (
+                <div className="bg-orange-50 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <div className="bg-orange-600 p-2 rounded-lg mr-3">
+                      <Users className="w-5 h-5 text-white" />
+                    </div>
+                    Secondary Contact
+                  </h3>
+                  
+                  <div className="space-y-3">
+                    <div className="text-lg font-semibold text-gray-900">{supplier.secondaryContact || 'N/A'}</div>
+                    
+                    <div className="flex items-center text-gray-700">
+                      <Phone className="w-4 h-4 text-gray-400 mr-3" />
+                      {supplier.secondaryPhone ? (
+                        <a href={`tel:${supplier.secondaryPhone}`} className="text-blue-600 hover:text-blue-800">
+                          {supplier.secondaryPhone}
+                        </a>
+                      ) : (
+                        <span className="text-gray-500">N/A</span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center text-gray-700">
+                      <Mail className="w-4 h-4 text-gray-400 mr-3" />
+                      {supplier.secondaryEmail ? (
+                        <a href={`mailto:${supplier.secondaryEmail}`} className="text-blue-600 hover:text-blue-800">
+                          {supplier.secondaryEmail}
+                        </a>
+                      ) : (
+                        <span className="text-gray-500">N/A</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Row - Parts and Tags side by side */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Parts Supplied */}
             <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-gray-600 p-2 rounded-lg mr-3">
                   <Building2 className="w-5 h-5 text-white" />
                 </div>
@@ -73,7 +213,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
 
             {/* Tags */}
             <div className="bg-purple-50 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-purple-600 p-2 rounded-lg mr-3">
                   <Tag className="w-5 h-5 text-white" />
                 </div>
