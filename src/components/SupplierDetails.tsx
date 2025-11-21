@@ -114,6 +114,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 </div>
               </div>
             </div>
+          </div>
 
           {/* Bottom Row */}
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
