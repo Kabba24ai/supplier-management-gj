@@ -385,7 +385,13 @@ function App() {
                   </tr>
                 ) : (
                   filteredSuppliers.map((supplier) => (
-                    <tr key={supplier.id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={supplier.id} className={`transition-colors ${
+                      supplier.status === 'pending' 
+                        ? 'bg-yellow-50 hover:bg-yellow-100' 
+                        : supplier.status === 'inactive'
+                        ? 'bg-red-50 hover:bg-red-100'
+                        : 'hover:bg-gray-50'
+                    }`}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div>
