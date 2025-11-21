@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag, Folder, Wrench, Package, Factory, Truck, CreditCard, Monitor, Zap } from 'lucide-react';
+import { Plus, Search, Filter, Building2, Users, DollarSign, Star, Eye, Edit, Trash2, Phone, Mail, Tag, Folder, Wrench, Package, Factory, Truck, CreditCard, Monitor, Zap, User } from 'lucide-react';
 import SupplierModal from './components/SupplierModal';
 import TagsManagement from './components/TagsManagement';
 import CategoriesManagement from './components/CategoriesManagement';
@@ -396,12 +396,7 @@ function App() {
                         : 'hover:bg-gray-50'
                     }`}>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div>
-                            <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
-                            <div className="text-sm text-gray-500">{supplier.contactPerson}</div>
-                          </div>
-                        </div>
+                        <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex items-center">
