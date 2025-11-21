@@ -1,252 +1,178 @@
-import React from 'react';
-import { X, Building2, User, Users, Mail, Phone, Globe, MapPin, Tag } from 'lucide-react';
 import { Supplier } from '../types/supplier';
-import { mockParts, Part } from '../data/mockPartsData';
 
-interface SupplierDetailsProps {
-  supplier: Supplier;
-  onClose: () => void;
-}
-
-const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) => {
-  const parts = mockParts.filter(part => part.supplierIds.includes(supplier.id));
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'inactive': return 'bg-red-100 text-red-800 border-red-200';
-      case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <div className="flex items-center">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-lg mr-4">
-              <Building2 className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900">{supplier.name}</h2>
-              <div className="flex items-center mt-2 space-x-3">
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(supplier.status)}`}>
-                  <span className="capitalize">{supplier.status}</span>
-                </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                  {supplier.category}
-                </span>
-              </div>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Main Content */}
-        <div className="p-6">
-          {/* Top Row - Company Info and Contacts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Company Information */}
-            <div className="bg-blue-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <div className="bg-blue-600 p-2 rounded-lg mr-3">
-                  <Building2 className="w-5 h-5 text-white" />
-                </div>
-                Company Information
-              </h3>
-              
-              <div className="space-y-3">
-                <div className="text-lg font-semibold text-gray-900">{supplier.name}</div>
-                
-                <div className="flex items-center text-gray-700">
-                  <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                  <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
-                    {supplier.phone || 'N/A'}
-                  </a>
-                </div>
-
-                <div className="flex items-center text-gray-700">
-                  <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                  <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
-                    {supplier.email || 'N/A'}
-                  </a>
-                </div>
-
-                <div className="flex items-center text-gray-700">
-                  <Globe className="w-4 h-4 text-gray-400 mr-3" />
-                  {supplier.website ? (
-                    <a href={supplier.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
-                      {supplier.website}
-                    </a>
-                  ) : (
-                    <span className="text-gray-500">N/A</span>
-                  )}
-                </div>
-
-                <div className="flex items-start text-gray-700">
-                  <MapPin className="w-4 h-4 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <div>{supplier.address || 'N/A'}</div>
-                    <div>
-                      {supplier.city && supplier.state && supplier.zip 
-                        ? `${supplier.city}, ${supplier.state} ${supplier.zip}`
-                        : supplier.city || 'N/A'
-                      }
-                    </div>
-                    <div>{supplier.country}</div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 pt-2">
-                  <div>
-                    <div className="text-sm text-gray-600">Tax ID</div>
-                    <div className="font-medium">{supplier.taxId || 'N/A'}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-600">Payment Terms</div>
-                    <div className="font-medium">{supplier.paymentTerms}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Contacts */}
-            <div className="space-y-6">
-              {/* Primary Contact */}
-              <div className="bg-green-50 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <div className="bg-green-600 p-2 rounded-lg mr-3">
-                    <User className="w-5 h-5 text-white" />
-                  </div>
-                  Primary Contact
-                </h3>
-                
-                <div className="space-y-3">
-                  <div className="text-lg font-semibold text-gray-900">{supplier.primaryContact || 'N/A'}</div>
-                  
-                  <div className="flex items-center text-gray-700">
-                    <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                    <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
-                      {supplier.phone || 'N/A'}
-                    </a>
-                  </div>
-
-                  <div className="flex items-center text-gray-700">
-                    <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                    <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
-                      {supplier.email || 'N/A'}
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Secondary Contact */}
-              {(supplier.secondaryContact || supplier.secondaryEmail || supplier.secondaryPhone) && (
-                <div className="bg-orange-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <div className="bg-orange-600 p-2 rounded-lg mr-3">
-                      <Users className="w-5 h-5 text-white" />
-                    </div>
-                    Secondary Contact
-                  </h3>
-                  
-                  <div className="space-y-3">
-                    <div className="text-lg font-semibold text-gray-900">{supplier.secondaryContact || 'N/A'}</div>
-                    
-                    <div className="flex items-center text-gray-700">
-                      <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.secondaryPhone ? (
-                        <a href={`tel:${supplier.secondaryPhone}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.secondaryPhone}
-                        </a>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </div>
-
-                    <div className="flex items-center text-gray-700">
-                      <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.secondaryEmail ? (
-                        <a href={`mailto:${supplier.secondaryEmail}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.secondaryEmail}
-                        </a>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Bottom Row - Parts and Tags side by side */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Parts Supplied */}
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <div className="bg-gray-600 p-2 rounded-lg mr-3">
-                  <Building2 className="w-5 h-5 text-white" />
-                </div>
-                Parts Supplied ({parts.length})
-              </h3>
-              
-              <div className="space-y-2 max-h-32 overflow-y-auto">
-                {parts.length > 0 ? (
-                  parts.map((part, index) => (
-                    <div key={index} className="text-gray-900">
-                      {part.name}
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-500">No parts assigned</p>
-                )}
-              </div>
-            </div>
-
-            {/* Tags */}
-            <div className="bg-purple-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <div className="bg-purple-600 p-2 rounded-lg mr-3">
-                  <Tag className="w-5 h-5 text-white" />
-                </div>
-                Tags
-              </h3>
-              
-              <div className="flex flex-wrap gap-2">
-                {supplier.tags.length > 0 ? (
-                  supplier.tags.map((tag, index) => (
-                    <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
-                      #{tag}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-gray-500">No tags assigned</span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="flex justify-end p-6 border-t border-gray-200 bg-gray-50">
-          <button
-            onClick={onClose}
-            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default SupplierDetails;
+export const mockSuppliers: Supplier[] = [
+  {
+    id: 1,
+    name: "TechFlow Solutions",
+    email: "contact@techflow.com",
+    phone: "(555) 123-4567",
+    address: "123 Tech Street",
+    city: "San Francisco",
+    state: "CA",
+    zip: "94105",
+    country: "USA",
+    category: "Software / IT",
+    status: "active",
+    lastOrder: "2024-01-15",
+    primaryContact: "Sarah Johnson",
+    technicalContact: "Mike Rodriguez",
+    technicalEmail: "tech@techflow.com",
+    technicalPhone: "(555) 123-4568",
+    partsContact: "Jennifer Lee",
+    partsEmail: "parts@techflow.com",
+    partsPhone: "(555) 123-4569",
+    billingContact: "David Kim",
+    billingEmail: "billing@techflow.com",
+    billingPhone: "(555) 123-4570",
+    website: "https://www.techflow.com",
+    taxId: "US123456789",
+    paymentTerms: "Net 30",
+    joinDate: "2023-03-15",
+    tags: ["software", "cloud-services", "enterprise"]
+  },
+  {
+    id: 2,
+    name: "Global Manufacturing Co.",
+    email: "orders@globalmanuf.com",
+    phone: "(555) 987-6543",
+    address: "456 Industrial Blvd",
+    city: "Detroit",
+    state: "MI",
+    zip: "48201",
+    country: "USA",
+    category: "Equipment Mfg.",
+    status: "active",
+    lastOrder: "2024-01-20",
+    primaryContact: "Michael Chen",
+    technicalContact: "Robert Wilson",
+    technicalEmail: "engineering@globalmanuf.com",
+    technicalPhone: "(555) 987-6544",
+    partsContact: "Amanda Foster",
+    partsEmail: "parts@globalmanuf.com",
+    partsPhone: "(555) 987-6545",
+    billingContact: "Lisa Wang",
+    billingEmail: "accounting@globalmanuf.com",
+    billingPhone: "(555) 987-6546",
+    website: "https://www.globalmanuf.com",
+    taxId: "US987654321",
+    paymentTerms: "Net 45",
+    joinDate: "2022-08-10",
+    tags: ["automotive", "precision-parts", "oem", "iso-certified"]
+  },
+  {
+    id: 3,
+    name: "EcoSupply Partners",
+    email: "info@ecosupply.com",
+    phone: "(555) 456-7890",
+    address: "789 Green Way",
+    city: "Portland",
+    state: "OR",
+    zip: "97201",
+    country: "USA",
+    category: "Supplies - General",
+    status: "active",
+    lastOrder: "2024-01-18",
+    primaryContact: "Emma Rodriguez",
+    technicalContact: "James Thompson",
+    technicalEmail: "technical@ecosupply.com",
+    technicalPhone: "(555) 456-7891",
+    partsContact: "Maria Garcia",
+    partsEmail: "orders@ecosupply.com",
+    partsPhone: "(555) 456-7892",
+    billingContact: "Kevin Brown",
+    billingEmail: "billing@ecosupply.com",
+    billingPhone: "(555) 456-7893",
+    website: "https://www.ecosupply.com",
+    taxId: "US456789123",
+    paymentTerms: "Net 30",
+    joinDate: "2023-01-20",
+    tags: ["eco-friendly", "sustainable", "packaging"]
+  },
+  {
+    id: 4,
+    name: "Premium Materials Ltd",
+    email: "sales@premiummaterials.com",
+    phone: "(555) 321-0987",
+    address: "321 Quality Drive",
+    city: "Houston",
+    state: "TX",
+    zip: "77001",
+    country: "USA",
+    category: "Parts",
+    status: "active",
+    lastOrder: "2024-01-22",
+    primaryContact: "James Wilson",
+    technicalContact: "Dr. Patricia Lee",
+    technicalEmail: "engineering@premiummaterials.com",
+    technicalPhone: "(555) 321-0988",
+    partsContact: "Carlos Martinez",
+    partsEmail: "parts@premiummaterials.com",
+    partsPhone: "(555) 321-0989",
+    billingContact: "Nancy Davis",
+    billingEmail: "finance@premiummaterials.com",
+    billingPhone: "(555) 321-0990",
+    website: "https://www.premiummaterials.com",
+    taxId: "US321098765",
+    paymentTerms: "Net 15",
+    joinDate: "2022-11-05",
+    tags: ["high-grade", "certified", "aerospace"]
+  },
+  {
+    id: 5,
+    name: "Digital Innovations Inc",
+    email: "contact@digitalinnovations.com",
+    phone: "(555) 654-3210",
+    address: "654 Innovation Park",
+    city: "Austin",
+    state: "TX",
+    zip: "78701",
+    country: "USA",
+    category: "Software / IT",
+    status: "pending",
+    lastOrder: null,
+    primaryContact: "Alex Thompson",
+    technicalContact: "Rachel Kim",
+    technicalEmail: "dev@digitalinnovations.com",
+    technicalPhone: "(555) 654-3211",
+    partsContact: "Tom Anderson",
+    partsEmail: "hardware@digitalinnovations.com",
+    partsPhone: "(555) 654-3212",
+    billingContact: "Susan Miller",
+    billingEmail: "billing@digitalinnovations.com",
+    billingPhone: "(555) 654-3213",
+    website: "https://www.digitalinnovations.com",
+    taxId: "US654321098",
+    paymentTerms: "Net 30",
+    joinDate: "2024-01-10",
+    tags: ["digital", "innovation", "startup"]
+  },
+  {
+    id: 6,
+    name: "Reliable Services Corp",
+    email: "service@reliablecorp.com",
+    phone: "(555) 789-0123",
+    address: "789 Service Lane",
+    city: "Chicago",
+    state: "IL",
+    zip: "60601",
+    country: "USA",
+    category: "Utilities",
+    status: "active",
+    lastOrder: "2024-01-19",
+    primaryContact: "Robert Kim",
+    technicalContact: "Linda Johnson",
+    technicalEmail: "tech@reliablecorp.com",
+    technicalPhone: "(555) 789-0124",
+    partsContact: "Mark Wilson",
+    partsEmail: "parts@reliablecorp.com",
+    partsPhone: "(555) 789-0125",
+    billingContact: "Jennifer Taylor",
+    billingEmail: "accounts@reliablecorp.com",
+    billingPhone: "(555) 789-0126",
+    website: "https://www.reliablecorp.com",
+    taxId: "US789012345",
+    paymentTerms: "Net 30",
+    joinDate: "2023-06-12",
+    tags: ["maintenance", "support", "24-7-service"]
+  }
+];
