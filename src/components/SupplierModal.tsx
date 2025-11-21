@@ -147,62 +147,24 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 </div>
               </div>
 
-              {/* Technical Contact */}
-              {(supplier.technicalContact || supplier.technicalEmail || supplier.technicalPhone) && (
-                <div className="bg-blue-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <div className="bg-blue-600 p-2 rounded-lg mr-3">
-                      <Users className="w-5 h-5 text-white" />
-                    </div>
-                    Technical Contact
-                  </h3>
-                  
-                  <div className="space-y-3">
-                    <div className="text-lg font-semibold text-gray-900">{supplier.technicalContact || 'N/A'}</div>
-                    
-                    <div className="flex items-center text-gray-700">
-                      <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.technicalPhone ? (
-                        <a href={`tel:${supplier.technicalPhone}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.technicalPhone}
-                        </a>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </div>
-
-                    <div className="flex items-center text-gray-700">
-                      <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.technicalEmail ? (
-                        <a href={`mailto:${supplier.technicalEmail}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.technicalEmail}
-                        </a>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Parts Contact */}
-              {(supplier.partsContact || supplier.partsEmail || supplier.partsPhone) && (
+              {/* Secondary Contact */}
+              {(supplier.secondaryContact || supplier.secondaryEmail || supplier.secondaryPhone) && (
                 <div className="bg-orange-50 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                     <div className="bg-orange-600 p-2 rounded-lg mr-3">
                       <Users className="w-5 h-5 text-white" />
                     </div>
-                    Parts Contact
+                    Secondary Contact
                   </h3>
                   
                   <div className="space-y-3">
-                    <div className="text-lg font-semibold text-gray-900">{supplier.partsContact || 'N/A'}</div>
+                    <div className="text-lg font-semibold text-gray-900">{supplier.secondaryContact || 'N/A'}</div>
                     
                     <div className="flex items-center text-gray-700">
                       <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.partsPhone ? (
-                        <a href={`tel:${supplier.partsPhone}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.partsPhone}
+                      {supplier.secondaryPhone ? (
+                        <a href={`tel:${supplier.secondaryPhone}`} className="text-blue-600 hover:text-blue-800">
+                          {supplier.secondaryPhone}
                         </a>
                       ) : (
                         <span className="text-gray-500">N/A</span>
@@ -211,47 +173,9 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
 
                     <div className="flex items-center text-gray-700">
                       <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.partsEmail ? (
-                        <a href={`mailto:${supplier.partsEmail}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.partsEmail}
-                        </a>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Billing Contact */}
-              {(supplier.billingContact || supplier.billingEmail || supplier.billingPhone) && (
-                <div className="bg-purple-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <div className="bg-purple-600 p-2 rounded-lg mr-3">
-                      <Users className="w-5 h-5 text-white" />
-                    </div>
-                    Billing Contact
-                  </h3>
-                  
-                  <div className="space-y-3">
-                    <div className="text-lg font-semibold text-gray-900">{supplier.billingContact || 'N/A'}</div>
-                    
-                    <div className="flex items-center text-gray-700">
-                      <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.billingPhone ? (
-                        <a href={`tel:${supplier.billingPhone}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.billingPhone}
-                        </a>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </div>
-
-                    <div className="flex items-center text-gray-700">
-                      <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                      {supplier.billingEmail ? (
-                        <a href={`mailto:${supplier.billingEmail}`} className="text-blue-600 hover:text-blue-800">
-                          {supplier.billingEmail}
+                      {supplier.secondaryEmail ? (
+                        <a href={`mailto:${supplier.secondaryEmail}`} className="text-blue-600 hover:text-blue-800">
+                          {supplier.secondaryEmail}
                         </a>
                       ) : (
                         <span className="text-gray-500">N/A</span>
