@@ -1,168 +1,119 @@
-# Supplier Management System
+import React from 'react';
+import { X, Building2, User, Users, Mail, Phone, Globe, MapPin, Tag } from 'lucide-react';
+import { Supplier } from '../types/supplier';
+import { mockParts, Part } from '../data/mockPartsData';
 
-A modern, responsive supplier management system built with React, TypeScript, and Tailwind CSS.
+interface SupplierDetailsProps {
+  supplier: Supplier;
+  onClose: () => void;
+}
 
-## Features
+const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) => {
+  const parts = mockParts.filter(part => part.supplierIds.includes(supplier.id));
 
-- **Supplier Management**: Add, edit, view, and delete suppliers
-- **Advanced Search & Filtering**: Search by name, email, contact person with status and category filters
-- **Dashboard Statistics**: Overview of total suppliers, active suppliers, total value, and average ratings
-- **Responsive Design**: Modern, mobile-friendly interface built with Tailwind CSS
-- **TypeScript Support**: Full type safety throughout the application
-- **Modern UI**: Clean, professional interface with smooth animations and transitions
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'bg-green-100 text-green-800 border-green-200';
+      case 'inactive': return 'bg-red-100 text-red-800 border-red-200';
+      case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
 
-## Technology Stack
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+          <div className="flex items-center">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-lg mr-4">
+              <Building2 className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">{supplier.name}</h2>
+              <div className="flex items-center mt-2 space-x-3">
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(supplier.status)}`}>
+                  <span className="capitalize">{supplier.status}</span>
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                  {supplier.category}
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-white rounded-lg"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
 
-- **Frontend**: React 18 with TypeScript
-- **Styling**: Tailwind CSS
-- **Icons**: Lucide React
-- **Build Tool**: Vite
-- **Development**: Hot Module Replacement (HMR)
+        <div className="p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Company Information */}
+            <div className="bg-blue-50 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-blue-600 p-2 rounded-lg mr-3">
+                  <Building2 className="w-5 h-5 text-white" />
+                </div>
+                Company Information
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="text-lg font-semibold text-gray-900">{supplier.name}</div>
+                
+                <div className="flex items-center text-gray-700">
+                  <Phone className="w-4 h-4 text-gray-400 mr-3" />
+                  <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
+                    {supplier.phone || 'N/A'}
+                  </a>
+                </div>
 
-## Getting Started
+                <div className="flex items-center text-gray-700">
+                  <Mail className="w-4 h-4 text-gray-400 mr-3" />
+                  <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
+                    {supplier.email || 'N/A'}
+                  </a>
+                </div>
 
-### Prerequisites
+                <div className="flex items-center text-gray-700">
+                  <Globe className="w-4 h-4 text-gray-400 mr-3" />
+                  {supplier.website ? (
+                    <a href={supplier.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                      {supplier.website}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </div>
 
-- Node.js (version 16 or higher)
-- npm or yarn
+                <div className="flex items-start text-gray-700">
+                  <MapPin className="w-4 h-4 text-gray-400 mr-3 mt-1" />
+                  <div>
+                    <div>{supplier.address || 'N/A'}</div>
+                    <div>
+                      {supplier.city && supplier.state && supplier.zip 
+                        ? `${supplier.city}, ${supplier.state} ${supplier.zip}`
+                        : supplier.city || 'N/A'
+                      }
+                    </div>
+                    <div>{supplier.country}</div>
+                  </div>
+                </div>
 
-### Installation
+                <div className="grid grid-cols-2 gap-4 pt-2">
+                  <div>
+                    <div className="text-sm text-gray-600">Tax ID</div>
+                    <div className="font-medium">{supplier.taxId || 'N/A'}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-600">Payment Terms</div>
+                    <div className="font-medium">{supplier.paymentTerms}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd supplier-management-system
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:5173` to view the application.
-
-### Build for Production
-
-```bash
-npm run build
-```
-
-The built files will be in the `dist` directory.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-## Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   └── SupplierModal.tsx
-├── data/               # Mock data and API utilities
-│   └── mockData.ts
-├── types/              # TypeScript type definitions
-│   └── supplier.ts
-├── App.tsx             # Main application component
-├── main.tsx            # Application entry point
-└── index.css           # Global styles and Tailwind imports
-```
-
-## Features Overview
-
-### Dashboard Statistics
-- Total number of suppliers
-- Active suppliers count
-- Total business value
-- Average supplier rating
-
-### Supplier Management
-- **Add New Suppliers**: Complete form with validation
-- **Edit Existing Suppliers**: Update supplier information
-- **Delete Suppliers**: Remove suppliers with confirmation
-- **View Details**: Comprehensive supplier information display
-
-### Search and Filtering
-- **Text Search**: Search by supplier name, email, or contact person
-- **Status Filter**: Filter by active, inactive, or pending status
-- **Category Filter**: Filter by business category
-- **Clear Filters**: Reset all filters with one click
-
-### Data Fields
-Each supplier record includes:
-- Basic Information (name, email, phone, address)
-- Business Details (category, status, rating)
-- Financial Data (total orders, total value, payment terms)
-- Contact Information (contact person, website, tax ID)
-- Timestamps (join date, last order date)
-
-## Development
-
-### Available Scripts
-
-- `npm run dev` - Start development server with HMR
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint for code quality
-
-### Code Style
-
-The project follows modern React best practices:
-- Functional components with hooks
-- TypeScript for type safety
-- Tailwind CSS for styling
-- Component composition
-- Clean, readable code structure
-
-### Adding New Features
-
-1. **Components**: Add new components in `src/components/`
-2. **Types**: Define TypeScript interfaces in `src/types/`
-3. **Data**: Mock data and API calls in `src/data/`
-4. **Styling**: Use Tailwind CSS classes for consistent design
-
-## Customization
-
-### Styling
-The application uses Tailwind CSS for styling. You can customize:
-- Colors in the Tailwind configuration
-- Component styles by modifying CSS classes
-- Layout and spacing using Tailwind utilities
-
-### Data Structure
-Modify the `Supplier` interface in `src/types/supplier.ts` to add or remove fields.
-Update the mock data in `src/data/mockData.ts` accordingly.
-
-### Components
-All components are modular and can be easily customized or extended.
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For support, please open an issue in the GitHub repository or contact the development team.
+export default SupplierDetails;
