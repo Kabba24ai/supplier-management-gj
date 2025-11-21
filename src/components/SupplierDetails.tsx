@@ -115,39 +115,37 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </div>
             </div>
 
-            {/* Primary Contact */}
-            <div className="bg-green-50 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                <div className="bg-green-600 p-2 rounded-lg mr-3">
-                  <User className="w-5 h-5 text-white" />
-                </div>
-                Primary Contact
-              </h3>
-              
-              <div className="space-y-3">
-                <div className="text-lg font-semibold text-gray-900">{supplier.primaryContact || 'N/A'}</div>
+            {/* Right Column - Contacts */}
+            <div className="space-y-6">
+              {/* Primary Contact */}
+              <div className="bg-green-50 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                  <div className="bg-green-600 p-2 rounded-lg mr-3">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  Primary Contact
+                </h3>
                 
-                <div className="flex items-center text-gray-700">
-                  <Phone className="w-4 h-4 text-gray-400 mr-3" />
-                  <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
-                    {supplier.phone || 'N/A'}
-                  </a>
-                </div>
+                <div className="space-y-3">
+                  <div className="text-lg font-semibold text-gray-900">{supplier.primaryContact || 'N/A'}</div>
+                  
+                  <div className="flex items-center text-gray-700">
+                    <Phone className="w-4 h-4 text-gray-400 mr-3" />
+                    <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.phone || 'N/A'}
+                    </a>
+                  </div>
 
-                <div className="flex items-center text-gray-700">
-                  <Mail className="w-4 h-4 text-gray-400 mr-3" />
-                  <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
-                    {supplier.email || 'N/A'}
-                  </a>
+                  <div className="flex items-center text-gray-700">
+                    <Mail className="w-4 h-4 text-gray-400 mr-3" />
+                    <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.email || 'N/A'}
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Bottom Row */}
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Secondary Contact */}
-            {(supplier.secondaryContact || supplier.secondaryEmail || supplier.secondaryPhone) && (
+              {/* Secondary Contact */}
               <div className="bg-orange-50 rounded-lg p-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                   <div className="bg-orange-600 p-2 rounded-lg mr-3">
@@ -182,7 +180,11 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                   </div>
                 </div>
               </div>
-            )}
+            </div>
+          </div>
+
+          {/* Bottom Row */}
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
 
             {/* Parts Supplied */}
             <div className="bg-gray-50 rounded-lg p-6">
@@ -205,6 +207,9 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 )}
               </div>
             </div>
+
+            {/* Placeholder for balance */}
+            <div></div>
           </div>
 
           {/* Tags Section */}
