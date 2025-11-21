@@ -370,7 +370,7 @@ function App() {
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{width: '420px'}}>Parts</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{width: '420px'}}>Tags</th>
@@ -397,15 +397,16 @@ function App() {
                     }`}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{supplier.name}</div>
+                        <div className="text-sm text-gray-500">{supplier.primaryContact || 'N/A'}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex items-center">
-                          <User className="w-4 h-4 mr-2 text-gray-400" />
-                          {supplier.primaryContact || 'N/A'}
+                          <Phone className="w-4 h-4 mr-2 text-gray-400" />
+                          {supplier.phone || 'N/A'}
                         </div>
                         <div className="text-sm text-gray-500 flex items-center mt-1">
                           <Phone className="w-4 h-4 mr-2 text-gray-400" />
-                          {supplier.phone}
+                          {supplier.phone || 'N/A'}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
