@@ -203,6 +203,24 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                       </a>
                     ) : (
                       <span className="text-gray-500">N/A</span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center text-gray-700 text-sm">
+                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
+                    {supplier.partsEmail ? (
+                      <a href={`mailto:${supplier.partsEmail}`} className="text-blue-600 hover:text-blue-800">
+                        {supplier.partsEmail}
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">N/A</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Row 3 - Tags (Full Width) */}
           <div className="bg-purple-50 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
