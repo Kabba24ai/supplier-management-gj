@@ -405,8 +405,8 @@ function App() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900 flex items-center">
-                          <Mail className="w-4 h-4 mr-2 text-gray-400" />
-                          {supplier.email}
+                          <User className="w-4 h-4 mr-2 text-gray-400" />
+                          {supplier.primaryContact || 'N/A'}
                         </div>
                         <div className="text-sm text-gray-500 flex items-center mt-1">
                           <Phone className="w-4 h-4 mr-2 text-gray-400" />
