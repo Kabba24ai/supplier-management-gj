@@ -60,7 +60,7 @@ function App() {
   const [companySearch, setCompanySearch] = useState('');
   const [tagSearch, setTagSearch] = useState('');
   const [partSearch, setPartSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('active');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [showTagsManagement, setShowTagsManagement] = useState(false);
@@ -177,7 +177,7 @@ function App() {
     setCompanySearch('');
     setTagSearch('');
     setPartSearch('');
-    setStatusFilter('all');
+    setStatusFilter('active');
     setCategoryFilter('all');
   };
 
@@ -369,7 +369,6 @@ function App() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{width: '100px'}}>Status</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{width: '420px'}}>Parts</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{width: '420px'}}>Tags</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -378,7 +377,7 @@ function App() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredSuppliers.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-12">
+                    <td colSpan={6} className="text-center py-12">
                       <Users className="mx-auto h-12 w-12 text-gray-400" />
                       <h3 className="mt-2 text-sm font-medium text-gray-900">No suppliers found</h3>
                       <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
@@ -408,11 +407,6 @@ function App() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                           {supplier.category}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(supplier.status)}`}>
-                          <span className="capitalize">{supplier.status}</span>
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900" style={{width: '420px'}}>
