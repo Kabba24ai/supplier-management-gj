@@ -182,6 +182,42 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                   </div>
                 </div>
               </div>
+
+              {/* Parts Contact */}
+              <div className="bg-orange-50 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                  <div className="bg-orange-600 p-2 rounded-lg mr-3">
+                    <Users className="w-4 h-4 text-white" />
+                  </div>
+                  Parts Contact
+                </h3>
+                
+                <div className="space-y-2">
+                  <div className="font-semibold text-gray-900">{supplier.partsContact || 'N/A'}</div>
+                  
+                  <div className="flex items-center text-gray-700 text-sm">
+                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
+                    {supplier.partsPhone ? (
+                      <a href={`tel:${supplier.partsPhone}`} className="text-blue-600 hover:text-blue-800">
+                        {supplier.partsPhone}
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">N/A</span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center text-gray-700 text-sm">
+                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
+                    {supplier.partsEmail ? (
+                      <a href={`mailto:${supplier.partsEmail}`} className="text-blue-600 hover:text-blue-800">
+                        {supplier.partsEmail}
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">N/A</span>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -197,7 +233,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
               </h3>
               
               <div className="max-h-48 overflow-y-auto">
-                <div className="grid grid-cols-1 gap-2">
+                <div className="space-y-2">
                   {parts.length > 0 ? (
                     parts.map((part, index) => (
                       <div key={index} className="bg-white p-3 rounded border text-gray-900">
