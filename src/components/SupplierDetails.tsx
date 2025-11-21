@@ -51,9 +51,8 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
 
         {/* Main Content */}
         <div className="p-6">
-          {/* ROW 1: Company Information + Primary/Technical Contacts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Column 1: Company Information */}
+          {/* ROW 1: Company Information - 2 column layout */}
+          <div className="mb-6">
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-blue-600 p-2 rounded-lg mr-3">
@@ -62,8 +61,81 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                 Company Information
               </h3>
               
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Left Column */}
+                <div className="space-y-3">
+                  <div className="text-sm font-semibold text-gray-900">{supplier.name}</div>
+                  
+                  <div className="flex items-center text-gray-700">
+                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
+                    <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.phone || 'N/A'}
+                    </a>
+                  </div>
+
+                  <div className="flex items-center text-gray-700">
+                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
+                    <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.email || 'N/A'}
+                    </a>
+                  </div>
+
+                  <div className="flex items-center text-gray-700">
+                    <Globe className="w-3 h-3 text-gray-400 mr-2" />
+                    {supplier.website ? (
+                      <a href={supplier.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                        {supplier.website}
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">N/A</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Column */}
+                <div className="space-y-3">
+                  <div className="flex items-start text-gray-700">
+                    <MapPin className="w-3 h-3 text-gray-400 mr-2 mt-1" />
+                    <div>
+                      <div>{supplier.address || 'N/A'}</div>
+                      <div>
+                        {supplier.city && supplier.state && supplier.zip 
+                          ? `${supplier.city}, ${supplier.state} ${supplier.zip}`
+                          : supplier.city || 'N/A'
+                        }
+                      </div>
+                      <div>{supplier.country}</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-2 pt-2">
+                    <div>
+                      <div className="text-sm text-gray-600">Tax ID</div>
+                      <div className="text-sm font-medium">{supplier.taxId || 'N/A'}</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-600">Payment Terms</div>
+                      <div className="text-sm font-medium">{supplier.paymentTerms}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ROW 2: Primary Contact + Technical Contact */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* Primary Contact */}
+            <div className="bg-green-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-green-600 p-2 rounded-lg mr-3">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                Primary Contact
+              </h3>
+              
               <div className="space-y-3">
-                <div className="text-sm font-semibold text-gray-900">{supplier.name}</div>
+                <div className="font-semibold text-gray-900">{supplier.primaryContact || 'N/A'}</div>
                 
                 <div className="flex items-center text-gray-700">
                   <Phone className="w-3 h-3 text-gray-400 mr-2" />
@@ -78,116 +150,146 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                     {supplier.email || 'N/A'}
                   </a>
                 </div>
+              </div>
+            </div>
 
+            {/* Technical Contact */}
+            <div className="bg-blue-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-blue-600 p-2 rounded-lg mr-3">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                Technical Contact
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="font-semibold text-gray-900">{supplier.technicalContact || 'N/A'}</div>
+                
                 <div className="flex items-center text-gray-700">
-                  <Globe className="w-3 h-3 text-gray-400 mr-2" />
-                  {supplier.website ? (
-                    <a href={supplier.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
-                      {supplier.website}
+                  <Phone className="w-3 h-3 text-gray-400 mr-2" />
+                  {supplier.technicalPhone ? (
+                    <a href={`tel:${supplier.technicalPhone}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.technicalPhone}
                     </a>
                   ) : (
                     <span className="text-gray-500">N/A</span>
                   )}
                 </div>
 
-                <div className="flex items-start text-gray-700">
-                  <MapPin className="w-3 h-3 text-gray-400 mr-2 mt-1" />
-                  <div>
-                    <div>{supplier.address || 'N/A'}</div>
-                    <div>
-                      {supplier.city && supplier.state && supplier.zip 
-                        ? `${supplier.city}, ${supplier.state} ${supplier.zip}`
-                        : supplier.city || 'N/A'
-                      }
-                    </div>
-                    <div>{supplier.country}</div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 pt-2">
-                  <div>
-                    <div className="text-sm text-gray-600">Tax ID</div>
-                    <div className="text-sm font-medium">{supplier.taxId || 'N/A'}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-600">Payment Terms</div>
-                    <div className="text-sm font-medium">{supplier.paymentTerms}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Column 2: Primary Contact (top) + Technical Contact (bottom) */}
-            <div className="space-y-4">
-              {/* Primary Contact */}
-              <div className="bg-green-50 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <div className="bg-green-600 p-2 rounded-lg mr-3">
-                    <User className="w-4 h-4 text-white" />
-                  </div>
-                  Primary Contact
-                </h3>
-                
-                <div className="space-y-2">
-                  <div className="font-semibold text-gray-900">{supplier.primaryContact || 'N/A'}</div>
-                  
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
-                    <a href={`tel:${supplier.phone}`} className="text-blue-600 hover:text-blue-800">
-                      {supplier.phone || 'N/A'}
+                <div className="flex items-center text-gray-700">
+                  <Mail className="w-3 h-3 text-gray-400 mr-2" />
+                  {supplier.technicalEmail ? (
+                    <a href={`mailto:${supplier.technicalEmail}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.technicalEmail}
                     </a>
-                  </div>
-
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
-                    <a href={`mailto:${supplier.email}`} className="text-blue-600 hover:text-blue-800">
-                      {supplier.email || 'N/A'}
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Technical Contact */}
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <div className="bg-blue-600 p-2 rounded-lg mr-3">
-                    <Users className="w-4 h-4 text-white" />
-                  </div>
-                  Technical Contact
-                </h3>
-                
-                <div className="space-y-2">
-                  <div className="font-semibold text-gray-900">{supplier.technicalContact || 'N/A'}</div>
-                  
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.technicalPhone ? (
-                      <a href={`tel:${supplier.technicalPhone}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.technicalPhone}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.technicalEmail ? (
-                      <a href={`mailto:${supplier.technicalEmail}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.technicalEmail}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ROW 2: Parts Supplied + Parts/Billing Contacts */}
+          {/* ROW 3: Parts Contact + Billing Contact */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Column 1: Parts Supplied */}
+            {/* Parts Contact */}
+            <div className="bg-orange-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-orange-600 p-2 rounded-lg mr-3">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                Parts Contact
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="font-semibold text-gray-900">{supplier.partsContact || 'N/A'}</div>
+                
+                <div className="flex items-center text-gray-700">
+                  <Phone className="w-3 h-3 text-gray-400 mr-2" />
+                  {supplier.partsPhone ? (
+                    <a href={`tel:${supplier.partsPhone}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.partsPhone}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </div>
+
+                <div className="flex items-center text-gray-700">
+                  <Mail className="w-3 h-3 text-gray-400 mr-2" />
+                  {supplier.partsEmail ? (
+                    <a href={`mailto:${supplier.partsEmail}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.partsEmail}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Billing Contact */}
+            <div className="bg-purple-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-purple-600 p-2 rounded-lg mr-3">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                Billing Contact
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="font-semibold text-gray-900">{supplier.billingContact || 'N/A'}</div>
+                
+                <div className="flex items-center text-gray-700">
+                  <Phone className="w-3 h-3 text-gray-400 mr-2" />
+                  {supplier.billingPhone ? (
+                    <a href={`tel:${supplier.billingPhone}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.billingPhone}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </div>
+
+                <div className="flex items-center text-gray-700">
+                  <Mail className="w-3 h-3 text-gray-400 mr-2" />
+                  {supplier.billingEmail ? (
+                    <a href={`mailto:${supplier.billingEmail}`} className="text-blue-600 hover:text-blue-800">
+                      {supplier.billingEmail}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">N/A</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ROW 4: Tags + Parts Supplied */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Tags */}
+            <div className="bg-purple-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="bg-purple-600 p-2 rounded-lg mr-3">
+                  <Tag className="w-5 h-5 text-white" />
+                </div>
+                Tags
+              </h3>
+              
+              <div className="flex flex-wrap gap-2">
+                {supplier.tags.length > 0 ? (
+                  supplier.tags.map((tag, index) => (
+                    <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                      #{tag}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-gray-500">No tags assigned</span>
+                )}
+              </div>
+            </div>
+
+            {/* Parts Supplied */}
             <div className="bg-gray-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="bg-gray-600 p-2 rounded-lg mr-3">
@@ -209,103 +311,6 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, onClose }) 
                   )}
                 </div>
               </div>
-            </div>
-
-            {/* Column 2: Parts Contact (top) + Billing Contact (bottom) */}
-            <div className="space-y-4">
-              {/* Parts Contact */}
-              <div className="bg-orange-50 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <div className="bg-orange-600 p-2 rounded-lg mr-3">
-                    <Users className="w-4 h-4 text-white" />
-                  </div>
-                  Parts Contact
-                </h3>
-                
-                <div className="space-y-2">
-                  <div className="font-semibold text-gray-900">{supplier.partsContact || 'N/A'}</div>
-                  
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.partsPhone ? (
-                      <a href={`tel:${supplier.partsPhone}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.partsPhone}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.partsEmail ? (
-                      <a href={`mailto:${supplier.partsEmail}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.partsEmail}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Billing Contact */}
-              <div className="bg-purple-50 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <div className="bg-purple-600 p-2 rounded-lg mr-3">
-                    <Users className="w-4 h-4 text-white" />
-                  </div>
-                  Billing Contact
-                </h3>
-                
-                <div className="space-y-2">
-                  <div className="font-semibold text-gray-900">{supplier.billingContact || 'N/A'}</div>
-                  
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Phone className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.billingPhone ? (
-                      <a href={`tel:${supplier.billingPhone}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.billingPhone}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center text-gray-700 text-sm">
-                    <Mail className="w-3 h-3 text-gray-400 mr-2" />
-                    {supplier.billingEmail ? (
-                      <a href={`mailto:${supplier.billingEmail}`} className="text-blue-600 hover:text-blue-800">
-                        {supplier.billingEmail}
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">N/A</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ROW 3: Tags (Full Width) */}
-          <div className="bg-purple-50 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <div className="bg-purple-600 p-2 rounded-lg mr-3">
-                <Tag className="w-5 h-5 text-white" />
-              </div>
-              Tags
-            </h3>
-            
-            <div className="flex flex-wrap gap-2">
-              {supplier.tags.length > 0 ? (
-                supplier.tags.map((tag, index) => (
-                  <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
-                    #{tag}
-                  </span>
-                ))
-              ) : (
-                <span className="text-gray-500">No tags assigned</span>
-              )}
             </div>
           </div>
         </div>
