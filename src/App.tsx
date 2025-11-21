@@ -69,10 +69,13 @@ function App() {
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
   const [viewingSupplier, setViewingSupplier] = useState<Supplier | null>(null);
 
+  // Sort suppliers alphabetically by name
+  const sortedSuppliers = [...suppliers].sort((a, b) => a.name.localeCompare(b.name));
+
   const categories = Array.from(new Set(suppliers.map(s => s.category)));
 
   useEffect(() => {
-    let filtered = suppliers;
+    let filtered = sortedSuppliers;
 
     // Search by name/email (contact person)
     if (nameEmailSearch) {
@@ -120,7 +123,7 @@ function App() {
     }
 
     setFilteredSuppliers(filtered);
-  }, [nameEmailSearch, companySearch, tagSearch, partSearch, statusFilter, categoryFilter, suppliers, parts]);
+  }, [nameEmailSearch, companySearch, tagSearch, partSearch, statusFilter, categoryFilter, sortedSuppliers, parts]);
 
   const handleAddSupplier = (supplierData: Omit<Supplier, 'id' | 'lastOrder' | 'joinDate'>) => {
     const newSupplier: Supplier = {
